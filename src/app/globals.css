@@ -2,26 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @variants responsive {
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+    }
+  }
+}
+
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: #E9FCFF;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+body {
+  background-color: var(--foreground-rgb);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.daire {
+  width: 200px;
+  /* İstediğiniz genişliği burada belirleyin */
+  height: 200px;
+  /* İstediğiniz yüksekliği burada belirleyin */
+  border: 20px solid transparent;
+  border-top-color: #000;
+  /* border-bottom: none; */
+  border-radius: 80%;
 }
+
+.wrapword {
+  overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+/* 
+.accordion {
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.accordion h4 {
+  text-transform: none;
+  line-height: 1.5;
+} */
+
+.accordion p {
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+}
+
+.accordion header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion header h4 {
+  margin-bottom: 0;
+}
+
+.btn {
+  background: transparent;
+  border-color: transparent;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-left: 1rem;
+  align-self: center;
+  min-width: 2rem;
+}
+
+.accordion-title {
+  cursor: pointer;
+}
+
