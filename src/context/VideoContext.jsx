@@ -15,7 +15,7 @@ export const VideoProvider = ({ children }) => {
   const getAllVideos = async () => {
     try {
       setVideoLoading(true);
-      const response = await fetch(`${process.env.API_URL}/api/video`, {
+      const response = await fetch(`${process.env.API_URL}/api/v1/v1/video`, {
         method: "GET",
       });
 
@@ -40,7 +40,7 @@ export const VideoProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/${videoID}`
+        `${process.env.API_URL}/api/v1/video/${videoID}`
       );
 
       if (response.ok) {
@@ -88,13 +88,16 @@ export const VideoProvider = ({ children }) => {
     participants && formData.append("participants", participants);
 
     try {
-      const response = await fetch(`${process.env.API_URL}/api/video/create`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/video/create`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -165,7 +168,7 @@ export const VideoProvider = ({ children }) => {
       }
 
       const response = await fetch(
-        `${process.env.API_URL}/api/video/${videoID}/update`,
+        `${process.env.API_URL}/api/v1/video/${videoID}/update`,
         {
           method: "PUT",
           body: formData,
@@ -195,7 +198,7 @@ export const VideoProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/${videoID}/delete`,
+        `${process.env.API_URL}/api/v1/video/${videoID}/delete`,
         {
           method: "DELETE",
           headers: {
@@ -228,7 +231,7 @@ export const VideoProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/user?user_id=${userID}`,
+        `${process.env.API_URL}/api/v1/video/user?user_id=${userID}`,
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -258,7 +261,7 @@ export const VideoProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/user/current`,
+        `${process.env.API_URL}/api/v1/video/user/current`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -290,7 +293,7 @@ export const VideoProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/${videoID}/participants`,
+        `${process.env.API_URL}/api/v1/video/${videoID}/participants`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -324,7 +327,7 @@ export const VideoProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/user/${videoID}/delete`,
+        `${process.env.API_URL}/api/v1/video/user/${videoID}/delete`,
         {
           method: "DELETE",
           body: JSON.stringify({ user_id: userID }),
@@ -358,7 +361,7 @@ export const VideoProvider = ({ children }) => {
   const streamVideo = async (videoFileID) => {
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/file/${videoFileID}`
+        `${process.env.API_URL}/api/v1/video/file/${videoFileID}`
       );
       const videoBlob = await response.blob();
 
@@ -389,7 +392,7 @@ export const VideoProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `${process.env.API_URL}/api/video/file/${videoId}/create`,
+        `${process.env.API_URL}/api/v1/video/file/${videoId}/create`,
         formData,
         config
       );
@@ -405,7 +408,7 @@ export const VideoProvider = ({ children }) => {
     setVideoLoading(true);
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/video/file/${videoFileID}/delete`,
+        `${process.env.API_URL}/api/v1/video/file/${videoFileID}/delete`,
         {
           method: "DELETE",
           headers: {

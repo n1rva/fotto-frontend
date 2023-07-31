@@ -3,7 +3,7 @@ import VideoFileView from "@/components/video/videoFileView";
 const fetchVideo = async (videoFileID) => {
   try {
     const response = await fetch(
-      `${process.env.API_URL}/api/video/file/${videoFileID}`
+      `${process.env.API_URL}/api/v1/video/file/${videoFileID}`
     );
     const videoBlob = await response.blob();
 

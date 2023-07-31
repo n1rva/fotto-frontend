@@ -10,7 +10,7 @@ const getUserByID = async (id) => {
   const accessToken = cookieStore.get("access");
 
   try {
-    const response = await fetch(`${process.env.API_URL}/api/user/${id}`, {
+    const response = await fetch(`${process.env.API_URL}/api/v1/user/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken.value}`,

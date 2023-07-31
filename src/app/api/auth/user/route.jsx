@@ -16,7 +16,7 @@ export async function GET(req) {
   }
 
   try {
-    const response = await fetch(`${process.env.API_URL}/api/user/`, {
+    const response = await fetch(`${process.env.API_URL}/api/v1/user/`, {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
       },

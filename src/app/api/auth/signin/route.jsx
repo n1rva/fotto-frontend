@@ -7,7 +7,7 @@ export async function POST(req) {
   const { username, password } = data;
 
   try {
-    const response = await fetch(`${process.env.API_URL}/api/token/`, {
+    const response = await fetch(`${process.env.API_URL}/api/v1/token/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

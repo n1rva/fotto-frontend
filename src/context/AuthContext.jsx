@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const res = await fetch(`${process.env.API_URL}/api/signup/`, {
+      const res = await fetch(`${process.env.API_URL}/api/v1/signup/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
 
       const response = await fetch(
-        `${process.env.API_URL}/api/user/update/info`,
+        `${process.env.API_URL}/api/v1/user/update/info`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -131,7 +131,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
 
       const response = await fetch(
-        `${process.env.API_URL}/api/user/update/pass`,
+        `${process.env.API_URL}/api/v1/user/update/pass`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -211,7 +211,7 @@ export const AuthProvider = ({ children }) => {
 
   const getAllUsers = async (access_token) => {
     try {
-      const response = await fetch(`${process.env.API_URL}/api/allusers/`, {
+      const response = await fetch(`${process.env.API_URL}/api/v1/allusers/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${access_token}`,
@@ -232,7 +232,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/user/${userID}/`,
+        `${process.env.API_URL}/api/v1/user/${userID}/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -260,7 +260,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `${process.env.API_URL}/api/user/search?q=${query}`,
+        `${process.env.API_URL}/api/v1/user/search?q=${query}`,
         {
           headers: {
             "Content-Type": "application/json",

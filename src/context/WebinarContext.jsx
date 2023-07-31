@@ -15,7 +15,7 @@ export const WebinarProvider = ({ children }) => {
   const getAllWebinars = async () => {
     setWebinarLoading(true);
     try {
-      const response = await fetch(`${process.env.API_URL}/api/webinar`, {
+      const response = await fetch(`${process.env.API_URL}/api/v1/webinar`, {
         method: "GET",
       });
 
@@ -66,7 +66,7 @@ export const WebinarProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/create`,
+        `${process.env.API_URL}/api/v1/webinar/create`,
         {
           method: "POST",
           body: formData,
@@ -156,7 +156,7 @@ export const WebinarProvider = ({ children }) => {
       }
 
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/${webinarID}/update`,
+        `${process.env.API_URL}/api/v1/webinar/${webinarID}/update`,
         {
           method: "PUT",
           body: formData,
@@ -185,7 +185,7 @@ export const WebinarProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/${webinarID}/delete`,
+        `${process.env.API_URL}/api/v1/webinar/${webinarID}/delete`,
         {
           method: "DELETE",
           headers: {
@@ -222,7 +222,7 @@ export const WebinarProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/user?id=${id}`,
+        `${process.env.API_URL}/api/v1/webinar/user?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -251,7 +251,7 @@ export const WebinarProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/current`,
+        `${process.env.API_URL}/api/v1/webinar/current`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -278,7 +278,7 @@ export const WebinarProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/${webinarID}`
+        `${process.env.API_URL}/api/v1/webinar/${webinarID}`
       );
 
       if (response.ok) {
@@ -299,7 +299,7 @@ export const WebinarProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/${webinarID}/participants`
+        `${process.env.API_URL}/api/v1/webinar/${webinarID}/participants`
       );
 
       const data = await response.json();
@@ -319,7 +319,7 @@ export const WebinarProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/webinar/${webinarID}/user`,
+        `${process.env.API_URL}/api/v1/webinar/${webinarID}/user`,
         {
           method: "DELETE",
           body: JSON.stringify({ user_id: userID }),

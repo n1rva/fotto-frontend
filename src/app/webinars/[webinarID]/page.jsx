@@ -5,7 +5,9 @@ import React from "react";
 
 const getWebinarById = async (id) => {
   try {
-    const getWebinar = await fetch(`${process.env.API_URL}/api/webinar/${id}`);
+    const getWebinar = await fetch(
+      `${process.env.API_URL}/api/v1/webinar/${id}`
+    );
 
     const data = await getWebinar.json();
     if (data.success) {

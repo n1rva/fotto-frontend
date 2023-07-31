@@ -4,7 +4,7 @@ export async function POST(req) {
   const data = req.json();
 
   try {
-    const response = await fetch(`${process.env.API_URL}/api/webinar/new/`, {
+    const response = await fetch(`${process.env.API_URL}/api/v1/webinar/new/`, {
       method: "POST",
       //   body: formData,
     });

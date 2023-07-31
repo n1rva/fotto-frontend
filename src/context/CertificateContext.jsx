@@ -15,7 +15,7 @@ export const CertificateProvider = ({ children }) => {
     try {
       setCertificateLoading(true);
       const response = await fetch(
-        `${process.env.API_URL}/api/certificate?userid=${user_id}`,
+        `${process.env.API_URL}/api/v1/certificate?userid=${user_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -90,13 +90,16 @@ export const CertificateProvider = ({ children }) => {
       formData.append("qr_bg", qr_bg);
       formData.append("qr_fg", qr_fg);
 
-      const response = await fetch(`${process.env.API_URL}/api/certificate`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/certificate`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -165,7 +168,7 @@ export const CertificateProvider = ({ children }) => {
     try {
       setCertificateLoading(false);
       const response = await fetch(
-        `${process.env.API_URL}/api/certificate/preview`,
+        `${process.env.API_URL}/api/v1/certificate/preview`,
         {
           method: "POST",
           body: formData,
@@ -194,7 +197,7 @@ export const CertificateProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/certificate/user`,
+        `${process.env.API_URL}/api/v1/certificate/user`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -225,7 +228,7 @@ export const CertificateProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/certificate/uniqueid`,
+        `${process.env.API_URL}/api/v1/certificate/uniqueid`,
         {
           method: "POST",
           headers: {
@@ -257,7 +260,7 @@ export const CertificateProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/certificate/${id}`,
+        `${process.env.API_URL}/api/v1/certificate/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -331,7 +334,7 @@ export const CertificateProvider = ({ children }) => {
       formData.append("qr_fg", qr_fg);
 
       const response = await fetch(
-        `${process.env.API_URL}/api/certificate/participants`,
+        `${process.env.API_URL}/api/v1/certificate/participants`,
         {
           method: "POST",
           body: formData,
@@ -363,7 +366,7 @@ export const CertificateProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/certificate/verify?q=${query}`
+        `${process.env.API_URL}/api/v1/certificate/verify?q=${query}`
       );
 
       if (response.ok) {

@@ -1,6 +1,6 @@
 export const isAdmin = async (access_token) => {
   try {
-    const response = await fetch(`${process.env.API_URL}/api/user/`, {
+    const response = await fetch(`${process.env.API_URL}/api/v1/user/`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
