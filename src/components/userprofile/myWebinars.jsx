@@ -40,7 +40,7 @@ function MyWebinars({ access_token }) {
           <div className="flex justify-center items-center h-96">
             <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-iconBlue"></div>
           </div>
-        ) : userWebinars ? (
+        ) : userWebinars.length ? (
           <Swiper
             slidesPerView={window.innerWidth < 768 ? 1 : 3}
             spaceBetween={20}
@@ -82,7 +82,7 @@ function MyWebinars({ access_token }) {
           <div className="flex justify-center items-center h-96">
             <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-iconBlue"></div>
           </div>
-        ) : userExpiredWebinars ? (
+        ) : userExpiredWebinars.length ? (
           <Swiper
             slidesPerView={window.innerWidth < 768 ? 1 : 3}
             spaceBetween={20}
@@ -103,6 +103,7 @@ function MyWebinars({ access_token }) {
                     instructor={instructor}
                     backgroundImage={image}
                     date={date}
+                    props="mx-auto"
                   />
                 </SwiperSlide>
               );

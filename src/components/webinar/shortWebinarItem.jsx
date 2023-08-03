@@ -11,9 +11,12 @@ function ShortWebinarItem({
   title,
   instructor,
   date,
+  props = "",
 }) {
   return (
-    <div className="relative h-48 w-48 flex flex-col items-center py-1 px-3 rounded-lg bg-secBlue/20 border border-secBlue">
+    <div
+      className={`relative h-48 w-48 flex flex-col items-center py-1 px-3 rounded-lg bg-secBlue/20 border border-secBlue ${props}`}
+    >
       <Image
         src={`${process.env.API_URL}/${backgroundImage}`}
         width={100}

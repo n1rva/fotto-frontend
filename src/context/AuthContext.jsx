@@ -71,13 +71,13 @@ export const AuthProvider = ({ children }) => {
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
+      const data = await res.json();
 
+      if (res.ok) {
         setLoading(false);
         data.success && router.push("/signin");
       } else {
-        throw new Error("Hatayla karşılaşıldı.");
+        throw new Error(data.message || "Hatayla karşılaşıldı.");
       }
     } catch (error) {
       setLoading(false);

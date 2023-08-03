@@ -34,29 +34,25 @@ function WebinarList() {
   }
 
   if (allWebinars?.length === 0 && !webinarLoading) {
-    return <p>Henüz webinar kaydı bulunmamaktadır</p>;
+    return <p>Henüz webinar bulunmamaktadır</p>;
   }
 
   return (
     <section className="flex flex-wrap gap-12 mt-12 items-center justify-center max-w-sm md:max-w-none lg:justify-start">
-      {allWebinars?.length ? (
-        allWebinars.map((webinar) => {
-          const { id, title, image, instructor, date } = webinar;
+      {allWebinars?.map((webinar) => {
+        const { id, title, image, instructor, date } = webinar;
 
-          return (
-            <WebinarItem
-              key={id}
-              id={id}
-              date={date}
-              instructor={instructor}
-              title={title}
-              image={image}
-            />
-          );
-        })
-      ) : (
-        <h3 className="xl:text-xl">Planlanan bir webinar bulunmamaktadır.</h3>
-      )}
+        return (
+          <WebinarItem
+            key={id}
+            id={id}
+            date={date}
+            instructor={instructor}
+            title={title}
+            image={image}
+          />
+        );
+      })}
     </section>
   );
 }

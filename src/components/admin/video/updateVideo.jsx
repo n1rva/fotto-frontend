@@ -68,6 +68,7 @@ function UpdateVideo({ id, access_token }) {
 
         setPreviewThumbnail(video.thumbnail);
         setParticipants(video.participants);
+        console.log(video.description);
       }
     };
 
@@ -215,7 +216,7 @@ function UpdateVideo({ id, access_token }) {
       {
         videoID: id,
         title: title !== videoData.title ? title : undefined,
-        data: data !== videoData.data ? data : undefined,
+        data: data !== videoData.description ? data : undefined,
         price: price !== videoData.price ? price : undefined,
         date: date !== videoData.date ? date.format() : undefined,
         instructor:
@@ -488,8 +489,8 @@ function UpdateVideo({ id, access_token }) {
                         className="relative m-0 block w-full min-w-0 flex-auto border border-secBlue rounded-md bg-clip-padding px-3 py-[0.32rem] text-sm text-fottoText transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-fottoOrange file:px-3 file:py-[0.32rem] file:text-black file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-fottoOrange/70 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none lg:w-80"
                       />
                     </div>
-                    <div class="absolute mt-2 w-full overflow-hidden rounded-md bg-white">
-                      <div class="cursor-pointer ">
+                    <div className="absolute mt-2 w-full overflow-hidden rounded-md bg-white">
+                      <div className="cursor-pointer ">
                         {searchResults?.map((user) => {
                           if (!checkUserWhetherParticipant(user)) return;
                           else
@@ -510,7 +511,7 @@ function UpdateVideo({ id, access_token }) {
                   {selectedUser && (
                     <div className="flex flex-col my-4 space-y-3">
                       <h3 className="font-medium">Seçilen kullanıcı</h3>
-                      <div class="flex  text-sm font-medium text-gray-600">
+                      <div className="flex  text-sm font-medium text-gray-600">
                         {`${selectedUser.first_name} ${selectedUser.last_name} - ${selectedUser.email}`}
                       </div>
                       <button

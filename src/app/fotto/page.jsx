@@ -3,6 +3,11 @@ import { FiUser, FiVideo } from "react-icons/fi";
 import { MdPersonalVideo } from "react-icons/md";
 import { TbCertificate } from "react-icons/tb";
 
+export const metadata = {
+  title: "Admin İşlemleri | Fizyotto Live",
+  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+};
+
 function Fotto() {
   return (
     <div className="h-screen container flex flex-col items-center justify-center lg:max-w-7xl mx-auto lg:flex-row lg:items-start ">

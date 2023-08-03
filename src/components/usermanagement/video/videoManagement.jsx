@@ -11,21 +11,15 @@ import VideoContext from "@/context/VideoContext";
 import VideoItem from "./videoItem";
 
 function VideoManagement({ userID, access_token }) {
-  const { getUserVideos } = useContext(VideoContext);
+  const { getUserVideos, userVideos } = useContext(VideoContext);
 
-  const [userVideos, setUserVideos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getVideos = async () => {
-      try {
-        const data = await getUserVideos(userID, access_token.value);
-        setUserVideos(data.videos);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user videos:", error);
-        setLoading(false);
-      }
+      const response = await getUserVideos(userID, access_token.value);
+
+      if (response) setLoading(false);
     };
     getVideos();
   }, [userID, access_token]);

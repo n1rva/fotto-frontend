@@ -1,6 +1,11 @@
 import { FaWhatsapp } from "react-icons/fa";
 import { TbMail } from "react-icons/tb";
 
+export const metadata = {
+  title: "İletişim | Fizyotto Live",
+  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+};
+
 function Contact() {
   return (
     <main className="min-h-[80vh] p-3 mx-auto container max-w-lg flex flex-col mt-12 bg-[#F9FEFF]/75 rounded-lg md:max-w-2xl lg:max-w-5xl xl:max-w-7xl">

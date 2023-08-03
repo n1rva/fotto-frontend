@@ -2,7 +2,7 @@ import ShortWebinarItem from "@/components/webinar/shortWebinarItem";
 import WebinarContext from "@/context/WebinarContext";
 import { toastProps } from "@/utils/toastProps";
 import React, { useContext, useState } from "react";
-import { IoMdClose, IoMdCloseCircleOutline } from "react-icons/io";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 import { toast } from "react-toastify";
 
 function WebinarItem({

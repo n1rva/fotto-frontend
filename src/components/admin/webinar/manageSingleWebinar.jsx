@@ -24,7 +24,7 @@ function ManageSingleWebinar({
   const [isWebinarMenuOpen, setIsWebinarMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const { deleteWebinar, webinarError, clearWebinarErrors, info, setInfo } =
+  const { deleteWebinar, webinarError, clearWebinarErrors } =
     useContext(WebinarContext);
 
   const handleDelete = async () => {
@@ -66,18 +66,18 @@ function ManageSingleWebinar({
       {isWebinarMenuOpen && (
         <div className="absolute right-10 top-1 bg-fottoWhite/30 backdrop-blur-lg h-20 w-36 font-medium flex flex-col border border-fottoOrange rounded-lg">
           <Link
-            href={`fotto/webinar/update/${id}`}
+            href={`/fotto/webinar/update/${id}`}
             className="flex space-x-2 w-full h-full px-5 rounded-lg items-center hover:bg-fottoWhite/30 hover:text-fottoOrange duration-100 ease-in-out"
           >
             <AiTwotoneEdit className="h-6 w-6 " />
-            <span>Update</span>
+            <span>Düzenle</span>
           </Link>
           <button
             onClick={() => setIsDeleteModalOpen(true)}
             className="flex space-x-2 w-full h-full px-5 rounded-lg items-center hover:bg-fottoWhite/30 hover:text-fottoOrange duration-100 ease-in-out"
           >
             <RiDeleteBin2Fill className="h-6 w-6 " />
-            <span>Delete</span>
+            <span>Sil</span>
           </button>
         </div>
       )}

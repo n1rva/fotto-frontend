@@ -1,9 +1,14 @@
+export const metadata = {
+  title: "Kullanım Koşulları | Fizyotto Live",
+  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+};
+
 function Terms() {
   return (
     <main className="min-h-[80vh] space-y-10 p-3 mx-auto container max-w-lg flex flex-col mt-12 bg-[#F9FEFF]/75 rounded-lg md:max-w-2xl lg:max-w-5xl xl:max-w-7xl">
       <div>
         <h1 className="font-medium text-xl lg:text-2xl">Kullanım Koşulları</h1>
-        <p className="lg:text-lg">Son güncellenme: 20/07/2023</p>
+        <p className="lg:text-lg">Son güncellenme: 03/08/2023</p>
       </div>
       <div>
         <p className="lg:text-lg">

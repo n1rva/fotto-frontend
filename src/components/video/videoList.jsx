@@ -5,7 +5,7 @@ import VideoItem from "./videoItem";
 import Placeholder from "../placeholder";
 
 function VideoList() {
-  const { getAllVideos, allVideos } = useContext(VideoContext);
+  const { getAllVideos, allVideos, videoLoading } = useContext(VideoContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function VideoList() {
     );
   }
 
-  if (allVideos?.length === 0) {
+  if (allVideos?.length === 0 && !videoLoading) {
     return <p>Henüz webinar kaydı bulunmamaktadır</p>;
   }
 

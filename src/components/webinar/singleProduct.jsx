@@ -61,7 +61,7 @@ function SingleProduct({
           </div>
         </div>
       </div>
-      <div className="container flex flex-col justify-center p-3 my-10 space-y-3 md:items-start lg:max-w-7xl">
+      <div className="container flex flex-col justify-center p-3 my-10 space-y-12 md:items-start lg:max-w-7xl">
         {Object.keys(description).map((sec, index) => {
           return (
             <div key={index} className="">

@@ -42,8 +42,8 @@ function UserManagement({ access_token }) {
           className="relative m-0 block w-full min-w-0 flex-auto border border-secBlue rounded-md bg-clip-padding px-3 py-[0.32rem] text-sm text-fottoText transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-fottoOrange file:px-3 file:py-[0.32rem] file:text-black file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-fottoOrange/70 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none lg:w-80"
         />
       </div>
-      <div class="absolute mt-2 w-full overflow-hidden rounded-md bg-white">
-        <div class="cursor-pointer ">
+      <div className="absolute mt-2 w-full overflow-hidden rounded-md bg-white">
+        <div className="cursor-pointer ">
           {searchResults?.map((user) => {
             return (
               <Link

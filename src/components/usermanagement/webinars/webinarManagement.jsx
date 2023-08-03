@@ -2,13 +2,11 @@
 
 import WebinarContext from "@/context/WebinarContext";
 import { useContext, useEffect, useState } from "react";
-import ShortWebinarItem from "../../webinar/shortWebinarItem";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+
 import WebinarItem from "./webinarItem";
 
 function WebinarManagement({ userID, access_token }) {
@@ -31,7 +29,7 @@ function WebinarManagement({ userID, access_token }) {
         <div className="flex justify-center items-center h-60">
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-iconBlue"></div>
         </div>
-      ) : userWebinars?.length ? (
+      ) : userWebinars.length ? (
         <Swiper
           slidesPerView={window.innerWidth < 768 ? 1 : 4}
           spaceBetween={20}

@@ -5,6 +5,7 @@ import { capitalizeFirstLetter } from "@/utils/capitilalizeFirstLetter";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 function SignupForm() {
   const [firstName, setFirstName] = useState("");
@@ -169,7 +170,10 @@ function SignupForm() {
             <label className="space-x-2 flex items-center" for="useragreement">
               <input type="checkbox" id="useragreement" name="useragreement" />
               <div className="text-sm space-x-1">
-                <Link href={"#"} className="text-fottoOrange hover:opacity-80">
+                <Link
+                  href={"/terms"}
+                  className="text-fottoOrange hover:opacity-80"
+                >
                   Kullanıcı sözleşmesini
                 </Link>
                 <span>kabul ediyorum.</span>
@@ -180,7 +184,10 @@ function SignupForm() {
             <label className="space-x-2 flex items-center" for="privacy">
               <input type="checkbox" id="privacy" name="privacy" />
               <div className="text-sm space-x-1">
-                <Link href={"#"} className="text-fottoOrange hover:opacity-80">
+                <Link
+                  href={"/privacy"}
+                  className="text-fottoOrange hover:opacity-80"
+                >
                   Gizlilik Politikasını
                 </Link>
                 <span>kabul ediyorum.</span>

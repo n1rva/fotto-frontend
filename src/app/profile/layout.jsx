@@ -27,7 +27,7 @@ async function ProfileLayout({ children }) {
     <main className="min-h-[80vh] mx-auto container max-w-lg flex justify-center mt-12 bg-[#F9FEFF]/75 rounded-lg md:max-w-2xl lg:max-w-5xl lg:justify-between xl:max-w-7xl">
       <div className="hidden relative px-2 lg:block lg:py-4 lg:basis-1/4 ">
         <ProfileSidebar />
-        <div class="absolute right-0 top-0 -ml-0.5 w-0.5 h-full bg-secBlue/50" />
+        <div className="absolute right-0 top-0 -ml-0.5 w-0.5 h-full bg-secBlue/50" />
       </div>
       {children}
     </main>

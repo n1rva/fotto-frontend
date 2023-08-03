@@ -5,7 +5,8 @@ import { useState, createContext } from "react";
 const VideoContext = createContext();
 
 export const VideoProvider = ({ children }) => {
-  const [allVideos, setAllVideos] = useState(null);
+  const [allVideos, setAllVideos] = useState([]);
+  const [userVideos, setUserVideos] = useState([]);
 
   const [videoLoading, setVideoLoading] = useState(false);
   const [videoError, setVideoError] = useState(null);
@@ -15,7 +16,7 @@ export const VideoProvider = ({ children }) => {
   const getAllVideos = async () => {
     try {
       setVideoLoading(true);
-      const response = await fetch(`${process.env.API_URL}/api/v1/v1/video`, {
+      const response = await fetch(`${process.env.API_URL}/api/v1/video`, {
         method: "GET",
       });
 
@@ -43,14 +44,13 @@ export const VideoProvider = ({ children }) => {
         `${process.env.API_URL}/api/v1/video/${videoID}`
       );
 
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
-
         setVideoLoading(false);
 
         return data;
       } else {
-        throw new Error("Webinar kaydına erişilemedi.");
+        throw new Error(data.message || "Webinar kaydına erişilemedi.");
       }
     } catch (error) {
       setVideoLoading(false);
@@ -224,8 +224,6 @@ export const VideoProvider = ({ children }) => {
     }
   };
 
-  const getExpiredVideo = async () => {};
-
   const getUserVideos = async (userID, access_token) => {
     setVideoLoading(true);
 
@@ -239,14 +237,16 @@ export const VideoProvider = ({ children }) => {
         }
       );
 
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
-
         setVideoLoading(false);
+        setUserVideos(data.videos);
 
         return data;
       } else {
-        throw new Error("Kullanıcı webinar kayıtları getirilemedi.");
+        throw new Error(
+          data.message || "Kullanıcı webinar kayıtları getirilemedi."
+        );
       }
     } catch (error) {
       setVideoLoading(false);
@@ -270,9 +270,10 @@ export const VideoProvider = ({ children }) => {
         }
       );
 
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
         setVideoLoading(false);
+
         return data;
       } else {
         throw new Error(
@@ -397,7 +398,7 @@ export const VideoProvider = ({ children }) => {
         config
       );
       console.log(response);
-
+      //fix
       // başarı durumu
     } catch (error) {
       // hata durumu
@@ -433,7 +434,7 @@ export const VideoProvider = ({ children }) => {
     }
   };
 
-  const clearErrors = () => {
+  const clearVideoErrors = () => {
     setVideoError(null);
   };
 
@@ -454,9 +455,11 @@ export const VideoProvider = ({ children }) => {
         createVideoFile,
         deleteVideoFile,
 
-        clearErrors,
+        setUserVideos,
+        clearVideoError: clearVideoErrors,
 
         allVideos,
+        userVideos,
         videoLoading,
         videoError,
         uploadProgress,

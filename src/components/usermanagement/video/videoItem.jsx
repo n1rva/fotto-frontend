@@ -1,19 +1,35 @@
 import ShortVideoItem from "@/components/video/shortVideoItem";
 import VideoContext from "@/context/VideoContext";
+import { toastProps } from "@/utils/toastProps";
 
 import React, { useContext, useState } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { toast } from "react-toastify";
 
 function VideoItem({ userID, id, title, instructor, thumbnail, access_token }) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const { deleteVideoFromUser } = useContext(VideoContext);
+  const { deleteVideoFromUser, userVideos, setUserVideos } =
+    useContext(VideoContext);
 
   const handleDelete = async () => {
     const response = await deleteVideoFromUser(id, userID, access_token);
-    console.log(response);
+
+    const filteredUserVideos = userVideos.filter((video) => {
+      return video.id !== id;
+    });
+
+    setUserVideos(filteredUserVideos);
+
+    if (response.success) {
+      toast(response.message, {
+        isLoading: false,
+        type: "success",
+        ...toastProps,
+      });
+    }
   };
-  //fix - bildirim
+
   return (
     <div className="relative w-fit">
       <ShortVideoItem

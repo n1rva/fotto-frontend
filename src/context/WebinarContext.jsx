@@ -5,8 +5,8 @@ import { useState, createContext } from "react";
 const WebinarContext = createContext();
 
 export const WebinarProvider = ({ children }) => {
-  const [allWebinars, setAllWebinars] = useState(null);
-  const [userWebinars, setUserWebinars] = useState(null);
+  const [allWebinars, setAllWebinars] = useState([]);
+  const [userWebinars, setUserWebinars] = useState([]);
 
   const [webinarLoading, setWebinarLoading] = useState(false);
   const [webinarError, setWebinarError] = useState(null);
@@ -152,7 +152,7 @@ export const WebinarProvider = ({ children }) => {
       }
 
       if (certAdded) {
-        formData.append("certificate_added", certAdded);
+        formData.append("certificates_added", certAdded);
       }
 
       const response = await fetch(

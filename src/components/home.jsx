@@ -67,19 +67,20 @@ function Home() {
       </div>
       {/* yaklaşan webinarlar */}
       <div className="flex flex-col items-center bg-fottoWhite px-12 py-3 max-h-[50rem] h-full">
-        <h1 className="font-bold text-2xl my-4 lg:container lg:ml-8 xl:text-3xl">
+        <h1 className="font-bold text-2xl my-4 lg:w-full lg:max-w-6xl lg:px-6 xl:text-3xl">
           Yaklaşan Webinarlar
         </h1>
         {/* webinar listesi */}
         <div className="w-full max-w-5xl">
           {isLoading ? (
-            <div className="flex justify-center items-center h-96">
+            <div className="mx-auto flex justify-center items-center h-96">
               <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-iconBlue"></div>
             </div>
           ) : allWebinars.length ? (
             <Swiper
               slidesPerView={window.innerWidth < 768 ? 1 : 3}
-              spaceBetween={20}
+              grabCursor={true}
+              spaceBetween={30}
               pagination={{
                 clickable: true,
               }}
@@ -91,7 +92,7 @@ function Home() {
                 return (
                   <SwiperSlide key={id}>
                     <Link href={`webinars/${id}`}>
-                      <div className="min-h-[20rem] w-48 bg-darkerMain border border-secBlue select-none cursor-pointer hover:border-[#fd8f00] rounded-b-lg">
+                      <div className="min-h-[20rem] w-48 mx-auto bg-darkerMain border border-secBlue select-none cursor-pointer hover:border-[#fd8f00] rounded-b-lg">
                         <Image
                           src={`${process.env.API_URL}/${image}`}
                           width={100}

@@ -3,6 +3,7 @@
 import ShortVideoItem from "@/components/video/shortVideoItem";
 
 import VideoContext from "@/context/VideoContext";
+import { toastProps } from "@/utils/toastProps";
 
 import Link from "next/link";
 
@@ -11,24 +12,34 @@ import { AiTwotoneEdit } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 function ManageSingleVideo({ id, thumbnail, title, instructor }) {
   const [isVideoMenuOpen, setIsVideoMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
-  //   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const { deleteVideo } = useContext(VideoContext);
+  const { deleteVideo, videoError, clearVideoErrors } =
+    useContext(VideoContext);
 
   const handleDelete = async () => {
     const response = await deleteVideo(id, access_token);
 
     if (response.success) {
-      //
+      toast(response.message, {
+        isLoading: false,
+        type: "success",
+        ...toastProps,
+      });
     }
   };
 
-  //fix - bildirim
+  useEffect(() => {
+    if (videoError) {
+      toast.error(videoError);
+      clearVideoErrors();
+    }
+  }, [videoError]);
+
   return (
     <div className="relative w-fit mx-20">
       <ShortVideoItem
@@ -48,7 +59,7 @@ function ManageSingleVideo({ id, thumbnail, title, instructor }) {
       {isVideoMenuOpen && (
         <div className="absolute right-10 top-1 bg-fottoWhite/30 backdrop-blur-lg h-20 w-36 font-medium flex flex-col border border-fottoOrange rounded-lg">
           <Link
-            href={`fotto/video/update/${id}`}
+            href={`/fotto/video/update/${id}`}
             className="flex space-x-2 w-full h-full px-5 rounded-lg items-center hover:bg-fottoWhite/30 hover:text-fottoOrange duration-100 ease-in-out"
           >
             <AiTwotoneEdit className="h-6 w-6 " />
