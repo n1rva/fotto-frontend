@@ -50,21 +50,41 @@ function MyVideos({ access_token }) {
             modules={[Pagination]}
             className="mySwiper"
           >
-            {userVideos.map((video, index) => {
-              const { title, instructor, thumbnail, id } = video;
+            {userVideos.map((video) => {
+              const { title, instructor, thumbnail, id, file } = video;
 
-              return (
-                <SwiperSlide key={index}>
-                  <Link href={`/videos/stream/${id}`}>
-                    <ShortVideoItem
-                      key={index}
-                      title={title}
-                      instructor={instructor}
-                      backgroundImage={thumbnail}
-                    />
-                  </Link>
-                </SwiperSlide>
-              );
+              if (file) {
+                return (
+                  <SwiperSlide key={id}>
+                    <Link href={`/videos/stream/${file.id}`}>
+                      <ShortVideoItem
+                        title={title}
+                        instructor={instructor}
+                        backgroundImage={thumbnail}
+                        props={"mx-auto"}
+                      />
+                    </Link>
+                  </SwiperSlide>
+                );
+              } else {
+                return (
+                  <SwiperSlide key={id}>
+                    <div className="relative">
+                      <ShortVideoItem
+                        title={title}
+                        instructor={instructor}
+                        backgroundImage={thumbnail}
+                        props={"mx-auto"}
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex justify-center bg-white/30 backdrop-blur-md p-2 shadow-lg rounded-lg cursor-default">
+                        <span className="text-sm text-fottoOrange text-center">
+                          {"Video henüz yüklenmedi."}
+                        </span>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                );
+              }
             })}
           </Swiper>
         ) : (

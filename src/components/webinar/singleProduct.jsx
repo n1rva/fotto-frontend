@@ -18,7 +18,7 @@ function SingleProduct({
     <>
       <div className="container max-w-lg flex flex-col items-center bg-[#F9FEFF]/40 border border-fottoOrange rounded-lg justify-center mt-12 p-3 md:items-start md:max-w-2xl md:flex-row lg:max-w-7xl lg:justify-evenly">
         <Image
-          src={previewWebinarImage || `${process.env.API_URL}/${image}`}
+          src={previewWebinarImage || `${process.env.API_URL}${image}`}
           width={100}
           height={100}
           sizes="100vw"
@@ -35,7 +35,7 @@ function SingleProduct({
               <Image
                 src={
                   previewInstructorImage ||
-                  `${process.env.API_URL}/${instructorImage}`
+                  `${process.env.API_URL}${instructorImage}`
                 }
                 height={100}
                 width={100}

@@ -7,7 +7,7 @@ import { toastProps } from "@/utils/toastProps";
 
 import Link from "next/link";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";

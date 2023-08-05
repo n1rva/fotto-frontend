@@ -27,16 +27,6 @@ export async function POST(req) {
         sameSite: "lax",
         path: "/",
       });
-      // res.cookies.set("Set-Cookie", [
-      //   cookie.serialize("access", data.access, {
-      //     httpOnly: true,
-      //     // secure: process.env.NODE_ENV !== "development",
-      //     secure: true,
-      //     maxAge: 60 * 60 * 24 * 15,
-      //     sameSite: "Lax",
-      //     path: "/",
-      //   }),
-      // ]);
 
       return NextResponse.json({
         success: true,

@@ -209,25 +209,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getAllUsers = async (access_token) => {
-    try {
-      const response = await fetch(`${process.env.API_URL}/api/v1/allusers/`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setAllUsers(data.users);
-      }
-    } catch (error) {
-      setError("Server hatası.");
-    }
-  };
-
   const getUserByID = async (userID, access_token) => {
     setLoading(true);
     try {
@@ -304,7 +285,6 @@ export const AuthProvider = ({ children }) => {
         logout,
         clearErrors,
         setUpdated,
-        getAllUsers,
         searchUsers,
         getUserByID,
         setSearchResults,

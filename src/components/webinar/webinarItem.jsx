@@ -13,7 +13,7 @@ function WebinarItem({ id, image, title, instructor, date }) {
       className="min-h-[20rem] w-48 bg-darkerMain border border-secBlue select-none cursor-pointer hover:border-[#fd8f00] rounded-b-lg"
     >
       <Image
-        src={`${process.env.API_URL}/${image}`}
+        src={`${process.env.API_URL}${image}`}
         width={100}
         height={100}
         sizes="100vw"

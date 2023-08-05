@@ -14,18 +14,23 @@ const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
 export const metadata = {
   title: "Fizyotto Live",
   description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+  openGraph: {
+    title: "Fizyotto Live",
+    description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+    url: "https://www.fizyottolive.com",
+    siteName: "Fizyotto Live",
+    images: [{ url: "/social-fotto.webp", width: 700, height: 445 }],
+  },
+  robots: {
+    googleBot: {
+      index: true,
+    },
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
-        <meta
-          property="og:description"
-          content="Fizyoterapistler İçin Online Eğitim Platformu🎓"
-        />
-        <meta property="og:image" content={"/social-fotto.webp"} />
-      </Head>
       <body className={dmSans.className}>
         <AuthProvider>
           <WebinarProvider>

@@ -11,8 +11,7 @@ import { Pagination } from "swiper/modules";
 import moment from "moment";
 
 function MyCertificates({ access_token }) {
-  const { getCurrentUsersCertificates, certificateLoading, certificateError } =
-    useContext(CertificateContext);
+  const { getCurrentUsersCertificates } = useContext(CertificateContext);
 
   const [userCertificates, setUserCertificates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,6 +59,7 @@ function MyCertificates({ access_token }) {
                     date={moment(date).format("DD/MM/YYYY")}
                     instructor={instructor}
                     title={title}
+                    props={"mx-auto"}
                   />
                 </Link>
               </SwiperSlide>

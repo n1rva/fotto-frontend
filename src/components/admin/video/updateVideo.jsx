@@ -68,7 +68,6 @@ function UpdateVideo({ id, access_token }) {
 
         setPreviewThumbnail(video.thumbnail);
         setParticipants(video.participants);
-        console.log(video.description);
       }
     };
 

@@ -93,7 +93,6 @@ function UpdateWebinar({ id, access_token }) {
         setPreviewWebinarImage(webinar.image);
         setParticipants(webinar.participants);
         setCertAdded(webinar.certificates_added);
-        console.log(webinar.description);
       }
     };
 
@@ -213,213 +212,6 @@ function UpdateWebinar({ id, access_token }) {
   };
 
   useEffect(() => {
-    // setParticipantInfo([
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    //   {
-    //     id: 2,
-    //     email: "nirvanan.tr@gmail.com",
-    //     first_name: "Erencan",
-    //     last_name: "Aytaç",
-    //   },
-    // ]);
-
     const getParticipants = async () => {
       const data = await getWebinarParticipants(id, access_token);
 
@@ -427,22 +219,6 @@ function UpdateWebinar({ id, access_token }) {
     };
     getParticipants();
   }, []);
-
-  // useEffect(() => {
-  //   const getParticipantUsers = async () => {
-  //     for (let i = 0; i < participants.length; i++) {
-  //       const data = await getUserByID(participants[i], access_token);
-
-  //       if (data) {
-  //         setParticipantInfo((prev) => prev.concat(data));
-  //       }
-  //     }
-  //   };
-
-  //   if (participants?.length) {
-  //     getParticipantUsers();
-  //   }
-  // }, [participants]);
 
   const handleSelectUser = (user) => {
     setSelectedUser(user);
@@ -483,10 +259,6 @@ function UpdateWebinar({ id, access_token }) {
           certAdded !== webinarData.certificates_added ? certAdded : undefined,
       },
       access_token
-    );
-
-    console.log(
-      participants !== webinarData.participants ? participants : undefined
     );
 
     if (response.success) {
@@ -728,10 +500,10 @@ function UpdateWebinar({ id, access_token }) {
               className="absolute top-0 left-0 w-full h-full"
             />
             <div
-              className={`fixed z-50 bg-fottoWhite border rounded-lg font-medium p-2 h-[40rem] overflow-clip`}
+              className={`fixed z-50 bg-fottoWhite border rounded-lg font-medium p-2 h-[40rem] overflow-auto`}
             >
               <div className="flex flex-col-reverse p-3 w-full lg:space-x-10 lg:flex-row">
-                <div className="overflow-auto no-scrollbar">
+                <div className="">
                   <h3 className="my-4 font-medium text-lg">Katılımcılar</h3>
                   <ul className="flex flex-col border border-fottoOrange rounded-lg min-w-[25rem] ">
                     {participantInfo.map((participant, index) => (

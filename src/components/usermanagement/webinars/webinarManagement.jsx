@@ -39,7 +39,7 @@ function WebinarManagement({ userID, access_token }) {
           modules={[Pagination]}
           className="mySwiper"
         >
-          {userWebinars.map((webinar, index) => {
+          {userWebinars.map((webinar) => {
             const { id, date, title, instructor, image } = webinar;
             return (
               <SwiperSlide key={id}>

@@ -40,7 +40,7 @@ function CertificateItem({
   };
 
   return (
-    <div className="relative w-fit">
+    <div className="relative w-fit mx-auto">
       <Link href={`/certificates/${unique_id}`} className="select-none">
         <ShortCertificateItem
           date={moment(date).format("DD/MM/YYYY HH:mm")}

@@ -4,9 +4,11 @@ import Image from "next/image";
 import { BsCalendar2Date } from "react-icons/bs";
 import { FaChalkboardTeacher } from "react-icons/fa";
 
-function ShortCertificateItem({ title, instructor, date }) {
+function ShortCertificateItem({ title, instructor, date, props }) {
   return (
-    <div className="relative h-36 w-48 flex flex-col items-center py-1 px-3 rounded-sm border border-darkerOrange">
+    <div
+      className={`relative h-36 w-48 flex flex-col items-center py-1 px-3 rounded-sm border border-darkerOrange ${props}`}
+    >
       <Image
         src={"/cer.webp"}
         width={100}

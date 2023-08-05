@@ -31,7 +31,7 @@ function VideoItem({ userID, id, title, instructor, thumbnail, access_token }) {
   };
 
   return (
-    <div className="relative w-fit">
+    <div className="relative w-fit mx-auto">
       <ShortVideoItem
         title={title}
         instructor={instructor}

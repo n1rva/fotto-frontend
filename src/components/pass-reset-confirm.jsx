@@ -1,34 +1,51 @@
 "use client";
-import AuthContext from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import Link from "next/link";
+
+import { toastProps } from "@/utils/toastProps";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-function SigninForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function PassResetConfirmForm() {
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+  const [resetToken, setResetToken] = useState("");
 
-  const router = useRouter();
-
-  const { loading, error, isAuthenticated, login, clearErrors } =
-    useContext(AuthContext);
+  const params = useSearchParams();
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      clearErrors();
-    }
+    const token = params.get("token");
+    setResetToken(token);
+  }, []);
 
-    if (isAuthenticated && !loading) {
-      router.push("/");
+  const resetPassword = async () => {
+    const response = await fetch(
+      `${process.env.API_URL}/api/v1/password_reset/confirm/?token=${resetToken}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password: newPassword, token: resetToken }),
+      }
+    );
+
+    if (response.ok) {
+      toast("Şifreniz başarıyla değiştirildi", {
+        isLoading: false,
+        type: "success",
+        ...toastProps,
+      });
+    } else {
+      toast.error(
+        "Şifreniz değiştirilemedi. Şifre sıfırlama maili süresi dolmuş."
+      );
     }
-  }, [isAuthenticated, error, loading]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    login({ username: email, password });
+    resetPassword();
   };
 
   return (
@@ -37,53 +54,43 @@ function SigninForm() {
       onSubmit={handleSubmit}
       className="w-full flex flex-col select-none py-16 bg-[#F9FEFF] rounded-lg max-w-sm md:items-center md:max-w-md lg:max-w-lg shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px] shadow-black/10"
     >
-      <div className="text-xl font-medium px-6 md:text-2xl ">
-        Tekrar Hoşgeldiniz!
-      </div>
+      <div className="text-xl font-medium px-6">Şifrenizi değiştirin</div>
       <div className="px-6 py-12 flex flex-col space-y-6 md:items-center">
-        <div className="relative">
-          <input
-            type="text"
-            name="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full h-12 p-3 pt-6 placeholder-transparent text-black bg-transparent border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm md:w-80"
-            placeholder="email"
-            autoComplete="off"
-          />
-          <label
-            htmlFor="email"
-            className="absolute top-0 left-0 h-full px-3 py-3 text-sm text-fottoText transition-all duration-100 ease-in-out origin-left transform scale-75 translate-x-1 -translate-y-3 opacity-75 pointer-events-none peer-placeholder-shown:opacity-100 peer-focus:opacity-75 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 peer-focus:translate-x-1"
-          >
-            Email
-          </label>
-        </div>
         <div className="relative">
           <input
             type="password"
             name="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             className="w-full h-12 p-3 pt-6 placeholder-transparent text-black bg-transparent border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm md:w-80"
-            placeholder="Password"
+            placeholder="password"
             autoComplete="off"
           />
           <label
             htmlFor="password"
             className="absolute top-0 left-0 h-full px-3 py-3 text-sm text-fottoText transition-all duration-100 ease-in-out origin-left transform scale-75 translate-x-1 -translate-y-3 opacity-75 pointer-events-none peer-placeholder-shown:opacity-100 peer-focus:opacity-75 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 peer-focus:translate-x-1"
           >
-            Password
+            Yeni Şifre
           </label>
         </div>
-        <div className="w-full flex justify-end">
-          <Link
-            href={"/password_reset"}
-            className="text-sm text-secBlue hover:opacity-80"
+        <div className="relative">
+          <input
+            type="password"
+            name="newPassword"
+            id="newPassword"
+            value={newPasswordConfirm}
+            onChange={(e) => setNewPasswordConfirm(e.target.value)}
+            className="w-full h-12 p-3 pt-6 placeholder-transparent text-black bg-transparent border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm md:w-80"
+            placeholder="newPassword"
+            autoComplete="off"
+          />
+          <label
+            htmlFor="newPassword"
+            className="absolute top-0 left-0 h-full px-3 py-3 text-sm text-fottoText transition-all duration-100 ease-in-out origin-left transform scale-75 translate-x-1 -translate-y-3 opacity-75 pointer-events-none peer-placeholder-shown:opacity-100 peer-focus:opacity-75 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-3 peer-placeholder-shown:translate-x-0 peer-focus:translate-x-1"
           >
-            Şifremi Unuttum
-          </Link>
+            Yeni Şifre Tekrar
+          </label>
         </div>
       </div>
 
@@ -92,19 +99,11 @@ function SigninForm() {
           type="submit"
           className="rounded-lg px-4 py-2 bg-secBlue hover:bg-opacity-70"
         >
-          <span className="text-white font-medium text-sm ">Giriş Yap</span>
+          <span className="text-white font-medium text-sm ">Değiştir</span>
         </button>
-      </div>
-      <div className="mt-12 text-sm flex justify-center">
-        <h4>
-          Hesabınız yok mu?{" "}
-          <Link href={"/signup"} className="text-darkerOrange hover:opacity-80">
-            Hemen üye olun
-          </Link>
-        </h4>
       </div>
     </form>
   );
 }
 
-export default SigninForm;
+export default PassResetConfirmForm;

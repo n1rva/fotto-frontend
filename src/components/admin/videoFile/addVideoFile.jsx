@@ -1,7 +1,9 @@
 "use client";
 
 import VideoContext from "@/context/VideoContext";
+import { toastProps } from "@/utils/toastProps";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 function AddVideoFile({ access_token }) {
   const { getAllVideos, createVideoFile, uploadProgress } =
@@ -14,15 +16,16 @@ function AddVideoFile({ access_token }) {
     const file = event.target.files[0];
 
     const data = await createVideoFile(file, selectedVideo, access_token);
-  };
 
-  //fix
-
-  const handleFileUpload = async (file) => {
-    const data = await createVideoFile(file, selectedVideo, access_token);
-
-    console.log(data);
-    // Yükleme tamamlandığında veya hata olduğunda yapılacak işlemler...
+    if (data.success) {
+      toast("Video başarıyla yüklendi", {
+        isLoading: false,
+        type: "success",
+        ...toastProps,
+      });
+    } else {
+      toast.error(data.message);
+    }
   };
 
   const handleSelect = (e) => {

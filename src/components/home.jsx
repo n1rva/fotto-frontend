@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import { useContext, useEffect, useState } from "react";
 import WebinarContext from "@/context/WebinarContext";
-import WebinarItem from "./webinar/webinarItem";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -94,7 +93,7 @@ function Home() {
                     <Link href={`webinars/${id}`}>
                       <div className="min-h-[20rem] w-48 mx-auto bg-darkerMain border border-secBlue select-none cursor-pointer hover:border-[#fd8f00] rounded-b-lg">
                         <Image
-                          src={`${process.env.API_URL}/${image}`}
+                          src={`${process.env.API_URL}${image}`}
                           width={100}
                           height={100}
                           sizes="100vw"

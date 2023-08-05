@@ -397,11 +397,14 @@ export const VideoProvider = ({ children }) => {
         formData,
         config
       );
-      console.log(response);
-      //fix
-      // başarı durumu
+
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error("Webinar kaydı yüklenemedi.");
+      }
     } catch (error) {
-      // hata durumu
+      setVideoError(error.message || "Webinar kaydı yüklenemedi.");
     }
   };
 
@@ -456,7 +459,7 @@ export const VideoProvider = ({ children }) => {
         deleteVideoFile,
 
         setUserVideos,
-        clearVideoError: clearVideoErrors,
+        clearVideoErrors,
 
         allVideos,
         userVideos,

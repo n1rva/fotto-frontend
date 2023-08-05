@@ -38,7 +38,7 @@ function WebinarItem({
   };
 
   return (
-    <div className="relative w-fit">
+    <div className="relative w-fit mx-auto">
       <ShortWebinarItem
         title={title}
         instructor={instructor}

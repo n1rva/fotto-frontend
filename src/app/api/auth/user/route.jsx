@@ -7,12 +7,9 @@ export async function GET(req) {
   const accessToken = cookieStore.get("access");
 
   if (!accessToken) {
-    return NextResponse.json(
-      {
-        message: "Login first to load user",
-      },
-      { status: 401 }
-    );
+    return NextResponse.json({
+      message: "Login first to load user",
+    });
   }
 
   try {

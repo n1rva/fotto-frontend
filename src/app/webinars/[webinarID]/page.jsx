@@ -1,5 +1,4 @@
 import SingleProduct from "@/components/webinar/singleProduct";
-import Image from "next/image";
 
 import React from "react";
 

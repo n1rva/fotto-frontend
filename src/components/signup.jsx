@@ -14,6 +14,9 @@ function SignupForm() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
+  const [termsCheck, setTermsCheck] = useState(false);
+  const [privacyCheck, setPrivacyCheck] = useState(false);
+
   const [mailError, setMailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
@@ -47,13 +50,24 @@ function SignupForm() {
     setPasswordConfirm(pass);
 
     if (password === pass) setPasswordError("");
-    else {
-      setPasswordError("Şifreler aynı değil");
-    }
+    else setPasswordError("Şifreler aynı değil");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!termsCheck) {
+      return toast.error("Kullanıcı sözleşmesini kabul etmediniz");
+    }
+
+    if (!privacyCheck) {
+      return toast.error("Gizlilik politikasını kabul etmediniz");
+    }
+
+    if (password !== passwordConfirm) {
+      return toast.error("Şifreler aynı değil");
+    }
+
     signup({ firstName, lastName, email, password });
   };
   return (
@@ -167,8 +181,14 @@ function SignupForm() {
         </div>
         <div className="w-full flex flex-col space-y-3">
           <div>
-            <label className="space-x-2 flex items-center" for="useragreement">
-              <input type="checkbox" id="useragreement" name="useragreement" />
+            <label className="space-x-2 flex items-center" for="terms">
+              <input
+                type="checkbox"
+                id="terms"
+                name="terms"
+                checked={termsCheck}
+                onChange={(e) => setTermsCheck(e.target.checked)}
+              />
               <div className="text-sm space-x-1">
                 <Link
                   href={"/terms"}
@@ -182,7 +202,13 @@ function SignupForm() {
           </div>
           <div>
             <label className="space-x-2 flex items-center" for="privacy">
-              <input type="checkbox" id="privacy" name="privacy" />
+              <input
+                type="checkbox"
+                id="privacy"
+                name="privacy"
+                checked={privacyCheck}
+                onChange={(e) => setPrivacyCheck(e.target.checked)}
+              />
               <div className="text-sm space-x-1">
                 <Link
                   href={"/privacy"}
