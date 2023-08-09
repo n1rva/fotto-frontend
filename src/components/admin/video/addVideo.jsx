@@ -6,7 +6,7 @@ import moment from "moment";
 import "react-datetime/css/react-datetime.css";
 import { BsPlusCircle } from "react-icons/bs";
 import VideoContext from "@/context/VideoContext";
-import SingleProduct from "@/components/webinar/singleProduct";
+import SingleWebinarItem from "@/components/webinar/singleWebinarItem";
 import { toastProps } from "@/utils/toastProps";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -25,6 +25,8 @@ function AddVideo({ access_token }) {
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [previewInstructorImage, setPreviewInstructorImage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const { createVideo } = useContext(VideoContext);
 
@@ -106,6 +108,8 @@ function AddVideo({ access_token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const response = await createVideo(
       {
         title: name,
@@ -119,7 +123,8 @@ function AddVideo({ access_token }) {
       access_token
     );
 
-    if (response.success) {
+    if (response?.success) {
+      setLoading(false);
       router.push("/fotto/video");
 
       toast(response.message, {
@@ -127,6 +132,9 @@ function AddVideo({ access_token }) {
         type: "success",
         ...toastProps,
       });
+    } else {
+      setLoading(false);
+      toast.error("Webinar kaydı eklenemedi.");
     }
   };
 
@@ -231,10 +239,14 @@ function AddVideo({ access_token }) {
             </button>{" "}
             <button
               type="submit"
-              className="rounded-lg px-4 py-2 bg-secBlue hover:bg-opacity-70"
+              className={`rounded-lg px-4 py-2 hover:bg-opacity-70 ${
+                loading
+                  ? "cursor-not-allowed bg-gray-500"
+                  : "cursor-pointer bg-secBlue"
+              }`}
             >
-              <span className="text-white font-medium text-sm ">
-                Webinar Kaydı Ekle
+              <span className={`text-white font-medium text-sm`}>
+                {loading ? "Yükleniyor..." : "Webinar Kaydı Ekle"}
               </span>
             </button>
           </div>
@@ -292,7 +304,7 @@ function AddVideo({ access_token }) {
         </div>
       </form>
       {showPreview && (
-        <SingleProduct
+        <SingleWebinarItem
           date={date}
           description={data}
           instructor={instructor}

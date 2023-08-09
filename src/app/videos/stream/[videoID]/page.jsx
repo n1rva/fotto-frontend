@@ -1,3 +1,4 @@
+"use client";
 import VideoFileView from "@/components/video/videoFileView";
 
 async function StreamVideo({ params }) {

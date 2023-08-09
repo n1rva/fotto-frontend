@@ -41,6 +41,8 @@ function UpdateVideo({ id, access_token }) {
 
   const [videoData, setVideoData] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   const { getVideo, updateVideo, getVideoParticipants } =
     useContext(VideoContext);
   const { searchUsers, searchResults, setSearchResults } =
@@ -210,6 +212,7 @@ function UpdateVideo({ id, access_token }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const response = await updateVideo(
       {
@@ -237,6 +240,7 @@ function UpdateVideo({ id, access_token }) {
       });
       router.push("/fotto/video");
     }
+    setLoading(false);
   };
 
   return (
@@ -408,10 +412,14 @@ function UpdateVideo({ id, access_token }) {
           </button>
           <button
             type="submit"
-            className="rounded-lg px-4 py-2 bg-secBlue hover:bg-opacity-70"
+            className={`rounded-lg px-4 py-2 hover:bg-opacity-70 ${
+              loading
+                ? "cursor-not-allowed bg-gray-500"
+                : "cursor-pointer bg-secBlue"
+            }`}
           >
-            <span className="text-white font-medium text-sm ">
-              Webinarı kaydını güncelle
+            <span className={`text-white font-medium text-sm`}>
+              {loading ? "Yükleniyor..." : "Webinar Kaydı Ekle"}
             </span>
           </button>
         </div>

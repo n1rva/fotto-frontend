@@ -37,8 +37,8 @@ function Home() {
             Kendinizi geliştirmek bir tık uzaklıkta.
           </h1>
           <p className="font-medium text-fottoText mt-6 text-sm max-w-sm lg:text-base">
-            Uzman fizyoterapistlerin eşlik ettiği webinarlar ile sertifikanızı
-            alın, kariyerinizde bir adım öne geçin.
+            Uzman fizyoterapist ve akademisyenler eşlik ettiği webinarlar ile
+            sertifikanızı alın, kariyerinizde bir adım öne geçin.
           </p>
           <Link
             href={"/signup"}
@@ -52,7 +52,7 @@ function Home() {
         <div className="flex justify-center max-w-sm p-12 lg:max-w-3xl">
           <div className="relative h-fit">
             <Image
-              src="/anasayfaFoto.webp"
+              src="/ana.webp"
               width={300}
               height={300}
               sizes="100vw"
@@ -150,9 +150,9 @@ function Home() {
               Kariyerinizde ilerlemeye başlayın
             </h3>
             <p className="text-xs lg:text-sm lg:max-w-md">
-              Sizin için davet ettiğimiz uzman fizyoterapistler ile
-              kariyerinizde daha da ileri gidin. Elde edeceğiniz sertifikalar
-              ile kendinizi kanıtlayın.
+              Sizin için davet ettiğimiz uzman fizyoterapist ve akademisyenler
+              ile kariyerinizde daha da ileri gidin. Elde edeceğiniz
+              sertifikalar ile kendinizi kanıtlayın.
             </p>
           </div>
         </div>
@@ -176,9 +176,9 @@ function Home() {
               </span>
             </h3>
             <p className="text-xs lg:text-sm lg:max-w-md">
-              Uzman fizyoterapistlerin katıldığı özel webinar kayıtlarına
-              erişerek yeni bilgiler edinebilir, sektördeki gelişmeleri yakından
-              takip edebilirsiniz.
+              uzman fizyoterapist ve akademisyenlerin katıldığı özel webinar
+              kayıtlarına erişerek yeni bilgiler edinebilir, sektördeki
+              gelişmeleri yakından takip edebilirsiniz.
             </p>
           </div>
         </div>

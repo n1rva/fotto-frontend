@@ -9,12 +9,15 @@ function AddVideoFile({ access_token }) {
   const { getAllVideos, createVideoFile, uploadProgress } =
     useContext(VideoContext);
 
+  const [file, setFile] = useState(undefined);
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(undefined);
 
-  const handleFileSelect = async (event) => {
-    const file = event.target.files[0];
+  const handleFileSelect = (event) => {
+    setFile(event.target.files[0]);
+  };
 
+  const handleUpload = async () => {
     const data = await createVideoFile(file, selectedVideo, access_token);
 
     if (data.success) {
@@ -76,6 +79,15 @@ function AddVideoFile({ access_token }) {
           </option>
         ))}
       </select>
+      <div>
+        <button
+          type="button"
+          onClick={handleUpload}
+          className="rounded-lg px-4 py-2 bg-fottoOrange text-white hover:bg-opacity-70"
+        >
+          Yükle
+        </button>
+      </div>
     </div>
   );
 }

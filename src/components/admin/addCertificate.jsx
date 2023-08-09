@@ -35,10 +35,11 @@ function AddCertificate({ access_token }) {
   const [showFontFileInput, setShowFontFileInput] = useState(false);
 
   const [enableAddBtn, setEnableAddBtn] = useState(false);
-  // const [previewedCertificate, setPreviewedCertificate] = useState("");
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -123,6 +124,7 @@ function AddCertificate({ access_token }) {
   };
 
   const createCertificatesForParticipants = async () => {
+    setLoading(true);
     const response = await createCertificateForWebinarParticipants(
       {
         fontSize,
@@ -155,6 +157,7 @@ function AddCertificate({ access_token }) {
         ...toastProps,
       });
     }
+    setLoading(false);
   };
 
   const createForUser = async (userID) => {
@@ -662,8 +665,8 @@ function AddCertificate({ access_token }) {
                   : "cursor-not-allowed bg-fottoText"
               } rounded-lg px-4 py-2 w-fit `}
             >
-              <span className="text-white font-medium text-sm ">
-                Sertifika Ekle
+              <span className={`text-white font-medium text-sm`}>
+                {loading ? "Yükleniyor..." : "Sertifika ekle"}
               </span>
             </button>
           </div>

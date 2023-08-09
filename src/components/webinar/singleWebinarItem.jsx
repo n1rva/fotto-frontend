@@ -1,7 +1,7 @@
 import Image from "next/image";
 import moment from "moment";
 
-function SingleProduct({
+function SingleWebinarItem({
   image,
   title,
   instructor,
@@ -77,4 +77,4 @@ function SingleProduct({
   );
 }
 
-export default SingleProduct;
+export default SingleWebinarItem;

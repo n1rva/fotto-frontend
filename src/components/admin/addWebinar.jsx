@@ -5,7 +5,7 @@ import Datetime from "react-datetime";
 import moment from "moment";
 import "react-datetime/css/react-datetime.css";
 import { BsPlusCircle } from "react-icons/bs";
-import SingleProduct from "../webinar/singleProduct";
+import SingleWebinarItem from "../webinar/singleWebinarItem";
 import WebinarContext from "@/context/WebinarContext";
 import { toast } from "react-toastify";
 import { toastProps } from "@/utils/toastProps";
@@ -26,6 +26,8 @@ function AddWebinar({ access_token }) {
   const [previewWebinarImage, setPreviewWebinarImage] = useState("");
   const [previewInstructorImage, setPreviewInstructorImage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const { createWebinar, webinarError, clearWebinarErrors, info, setInfo } =
     useContext(WebinarContext);
@@ -119,6 +121,8 @@ function AddWebinar({ access_token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const response = await createWebinar(
       {
         title: name,
@@ -133,7 +137,7 @@ function AddWebinar({ access_token }) {
       access_token
     );
 
-    if (response.success) {
+    if (response?.success) {
       router.push("/fotto/webinar");
 
       toast(response.message, {
@@ -142,6 +146,7 @@ function AddWebinar({ access_token }) {
         ...toastProps,
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -259,10 +264,14 @@ function AddWebinar({ access_token }) {
             </button>{" "}
             <button
               type="submit"
-              className="rounded-lg px-4 py-2 bg-secBlue hover:bg-opacity-70"
+              className={`rounded-lg px-4 py-2 hover:bg-opacity-70 ${
+                loading
+                  ? "cursor-not-allowed bg-gray-500"
+                  : "cursor-pointer bg-secBlue"
+              }`}
             >
-              <span className="text-white font-medium text-sm ">
-                Webinar Ekle
+              <span className={`text-white font-medium text-sm`}>
+                {loading ? "Yükleniyor..." : "Webinar Ekle"}
               </span>
             </button>
           </div>
@@ -320,7 +329,7 @@ function AddWebinar({ access_token }) {
         </div>
       </form>
       {showPreview && (
-        <SingleProduct
+        <SingleWebinarItem
           date={date}
           description={data}
           instructor={instructor}

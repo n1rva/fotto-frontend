@@ -6,7 +6,7 @@ import moment from "moment";
 import "react-datetime/css/react-datetime.css";
 import { BsPlusCircle } from "react-icons/bs";
 import WebinarContext from "@/context/WebinarContext";
-import SingleProduct from "@/components/webinar/singleProduct";
+import SingleWebinarItem from "@/components/webinar/singleWebinarItem";
 import AuthContext from "@/context/AuthContext";
 import useDebounce from "@/utils/useDebounce";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -32,6 +32,8 @@ function UpdateWebinar({ id, access_token }) {
   const [previewInstructorImage, setPreviewInstructorImage] =
     useState(undefined);
   const [showPreview, setShowPreview] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const [showParticipantsModal, setShowParticipantsModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -239,6 +241,8 @@ function UpdateWebinar({ id, access_token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const response = await updateWebinar(
       {
         webinarID: id,
@@ -269,6 +273,7 @@ function UpdateWebinar({ id, access_token }) {
       });
       router.push("/fotto/webinar");
     }
+    setLoading(false);
   };
 
   return (
@@ -468,16 +473,20 @@ function UpdateWebinar({ id, access_token }) {
           </button>
           <button
             type="submit"
-            className="rounded-lg px-4 py-2 bg-secBlue hover:bg-opacity-70"
+            className={`rounded-lg px-4 py-2 hover:bg-opacity-70 ${
+              loading
+                ? "cursor-not-allowed bg-gray-500"
+                : "cursor-pointer bg-secBlue"
+            }`}
           >
-            <span className="text-white font-medium text-sm ">
-              Webinarı güncelle
+            <span className={`text-white font-medium text-sm`}>
+              {loading ? "Yükleniyor..." : "Webinar Güncelle"}
             </span>
           </button>
         </div>
       </form>
       {showPreview && (
-        <SingleProduct
+        <SingleWebinarItem
           date={date}
           description={data}
           instructor={instructor}

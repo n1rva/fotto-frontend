@@ -14,7 +14,7 @@ import { IoMdClose } from "react-icons/io";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
-function ManageSingleVideo({ id, thumbnail, title, instructor }) {
+function ManageSingleVideo({ id, thumbnail, title, instructor, access_token }) {
   const [isVideoMenuOpen, setIsVideoMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 

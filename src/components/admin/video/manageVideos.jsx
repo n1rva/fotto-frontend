@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import ManageSingleVideo from "./manageSingleVideo";
 import VideoContext from "@/context/VideoContext";
 
-function ManageVideos() {
+function ManageVideos({ access_token }) {
   const { getAllVideos } = useContext(VideoContext);
 
   const [loading, setLoading] = useState(true);
@@ -42,6 +42,7 @@ function ManageVideos() {
                 thumbnail={thumbnail}
                 title={title}
                 instructor={instructor}
+                access_token={access_token}
               />
             );
           })}

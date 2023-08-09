@@ -1,28 +1,59 @@
 "use client";
 import { useEffect, useRef } from "react";
 
+import VideoJS from "../videoJS";
+
 function VideoFileView({ id }) {
   const videoRef = useRef(null);
 
-  useEffect(() => {
-    const fetchVideo = async () => {
-      const response = await fetch(
-        `${process.env.API_URL}/api/v1/video/file/${id}`
-      );
-      const data = await response.blob();
+  const playerRef = useRef(null);
 
-      const videoURL = URL.createObjectURL(data);
+  const videoJsOptions = {
+    autoplay: true,
+    controls: true,
+    responsive: false,
+    fluid: true,
+    download: false,
 
-      videoRef.current.src = videoURL;
-    };
-    fetchVideo();
-  }, []);
+    sources: [
+      {
+        src: `${process.env.API_URL}/api/v1/video/file/${id}`,
+        type: "video/mp4",
+      },
+    ],
+  };
+
+  const handlePlayerReady = (player) => {
+    playerRef.current = player;
+
+    // You can handle player events here, for example:
+    player.on("waiting", () => {
+      videojs.log("player is waiting");
+    });
+
+    player.on("dispose", () => {
+      videojs.log("player will dispose");
+    });
+  };
+
+  // useEffect(() => {
+  //   const fetchVideo = async () => {
+  //     const response = await fetch(
+  //       `${process.env.API_URL}/api/v1/video/file/${id}`
+  //     );
+  //     console.log(response);
+  //     const data = await response.blob();
+
+  //     const videoURL = URL.createObjectURL(data);
+
+  //     videoRef.current.src = videoURL;
+  //   };
+  //   fetchVideo();
+  // }, []);
 
   return (
-    <div className="space-y-10 p-3 mx-auto container max-w-lg flex flex-col justify-center items-center mt-12 bg-[#F9FEFF]/75 rounded-lg md:max-w-2xl lg:max-w-5xl xl:max-w-7xl">
-      <div className="flex justify-center items-center w-fit h-fit">
-        <video ref={videoRef} controls muted={true} />
-      </div>
+    <div className="p-3 mx-auto h-full max-w-lg mt-12 bg-[#F9FEFF]/75 rounded-lg md:max-w-2xl lg:max-w-5xl xl:max-w-7xl">
+      <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
     </div>
   );
 }
