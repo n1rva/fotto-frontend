@@ -1,13 +1,12 @@
-import Header from "@/components/header";
 import "./globals.css";
 import { DM_Sans } from "next/font/google";
-import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { WebinarProvider } from "@/context/WebinarContext";
 import { CertificateProvider } from "@/context/CertificateContext";
 import { VideoProvider } from "@/context/VideoContext";
 import ToastProvider from "@/utils/toastprovider";
 import Head from "next/head";
+import { PaymentProvider } from "@/context/PaymentContext";
 
 const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -31,16 +30,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <meta name="theme-color" content="#F9FEFF" />
       <body className={dmSans.className}>
         <AuthProvider>
           <WebinarProvider>
             <CertificateProvider>
               <VideoProvider>
-                <ToastProvider>
-                  <Header />
-                  {children}
-                  <Footer />
-                </ToastProvider>
+                <PaymentProvider>
+                  <ToastProvider>{children}</ToastProvider>
+                </PaymentProvider>
               </VideoProvider>
             </CertificateProvider>
           </WebinarProvider>

@@ -1,4 +1,7 @@
+import PaymentContext from "@/context/PaymentContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 function SingleVideoItem({
   thumbnail,
@@ -7,10 +10,31 @@ function SingleVideoItem({
   instructorImage,
   price,
   description,
+  videoID,
   previewThumbnail,
   previewInstructorImage,
 }) {
   if (typeof description === "string") description = JSON.parse(description);
+
+  const { addItemToBasket } = useContext(PaymentContext);
+
+  const router = useRouter();
+
+  const createBasket = () => {
+    addItemToBasket(
+      title,
+      price,
+      "video",
+      title,
+      instructor,
+      "",
+      price,
+      thumbnail,
+      videoID
+    );
+
+    router.push("/checkout");
+  };
 
   return (
     <>
@@ -49,7 +73,10 @@ function SingleVideoItem({
               <h3 className="font-medium">Video Ücreti</h3>
               <span className="mt-3">{price} TL</span>
             </div>
-            <button className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-12 text-white hover:opacity-80">
+            <button
+              onClick={createBasket}
+              className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-12 text-white hover:opacity-80"
+            >
               Hemen Al
             </button>
           </div>

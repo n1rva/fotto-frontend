@@ -1,5 +1,10 @@
+"use client";
 import Image from "next/image";
 import moment from "moment";
+import { useContext } from "react";
+import PaymentContext from "@/context/PaymentContext";
+
+import { redirect, useRouter } from "next/navigation";
 
 function SingleWebinarItem({
   image,
@@ -9,10 +14,31 @@ function SingleWebinarItem({
   date,
   price,
   description,
+  webinarID,
   previewWebinarImage,
   previewInstructorImage,
 }) {
   if (typeof description === "string") description = JSON.parse(description);
+
+  const { addItemToBasket } = useContext(PaymentContext);
+
+  const router = useRouter();
+
+  const createBasket = () => {
+    addItemToBasket(
+      title,
+      price,
+      "webinar",
+      title,
+      instructor,
+      date,
+      price,
+      image,
+      webinarID
+    );
+
+    router.push("/checkout");
+  };
 
   return (
     <>
@@ -55,7 +81,10 @@ function SingleWebinarItem({
           <div className=" flex flex-col w-full px-4">
             <h3 className="font-medium">Katılım Ücreti</h3>
             <span className="mt-3">{price} TL</span>
-            <button className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-4 text-white hover:opacity-80 ">
+            <button
+              onClick={createBasket}
+              className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-4 text-white hover:opacity-80 "
+            >
               Hemen Katıl
             </button>
           </div>

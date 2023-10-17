@@ -5,15 +5,14 @@ import ManageSingleVideo from "./manageSingleVideo";
 import VideoContext from "@/context/VideoContext";
 
 function ManageVideos({ access_token }) {
-  const { getAllVideos } = useContext(VideoContext);
+  const { getAllVideos, allVideos } = useContext(VideoContext);
 
   const [loading, setLoading] = useState(true);
-  const [allVideos, setAllVideos] = useState([]);
 
   useEffect(() => {
     const getVideos = async () => {
-      const data = await getAllVideos();
-      setAllVideos(data.videos);
+      getAllVideos();
+
       setLoading(false);
     };
 

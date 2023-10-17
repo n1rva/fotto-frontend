@@ -28,6 +28,7 @@ function SingleWebinar({ webinarID }) {
           description={webinar.description}
           title={webinar.title}
           image={webinar.image}
+          webinarID={webinarID}
         />
       )}
     </main>

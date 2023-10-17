@@ -102,7 +102,7 @@ function Footer() {
             width={100}
             height={100}
             sizes="50vw"
-            className="h-10 w-fit"
+            className="h-full w-16"
           />
           <span className="font-medium text-sm">Fizyotto Live 2023</span>
         </div>

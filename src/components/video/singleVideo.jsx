@@ -27,6 +27,7 @@ function SingleVideo({ videoID }) {
           description={video.description}
           title={video.title}
           thumbnail={video.thumbnail}
+          videoID={videoID}
         />
       )}
     </div>

@@ -212,6 +212,11 @@ export const VideoProvider = ({ children }) => {
 
         setVideoLoading(false);
 
+        const filteredVideos = allVideos.filter((video) => {
+          return video.id !== videoID;
+        });
+        setAllVideos(filteredVideos);
+
         return data;
       } else {
         throw new Error("Webinar silinirken hata ile karşılaşıldı.");

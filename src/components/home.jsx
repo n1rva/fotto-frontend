@@ -37,7 +37,7 @@ function Home() {
             Kendinizi geliştirmek bir tık uzaklıkta.
           </h1>
           <p className="font-medium text-fottoText mt-6 text-sm max-w-sm lg:text-base">
-            Uzman fizyoterapist ve akademisyenler eşlik ettiği webinarlar ile
+            Uzman fizyoterapist ve akademisyenlerin eşlik ettiği webinarlar ile
             sertifikanızı alın, kariyerinizde bir adım öne geçin.
           </p>
           <Link
@@ -57,7 +57,7 @@ function Home() {
               height={300}
               sizes="100vw"
               className="rounded-lg w-full"
-              alt="mainpagephoto"
+              alt="Fizyoterapistler"
             />
             <div className="absolute rounded-lg -left-2 top-2 w-full h-full -z-20 bg-secBlue/50 lg:-left-4 lg:top-4 " />
           </div>

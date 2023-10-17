@@ -17,7 +17,7 @@ function Header() {
     <>
       <header className="sticky top-0 h-12 bg-white bg-opacity-50 border-b backdrop-blur-sm z-30 lg:h-16">
         <div className="max-w-md mx-auto px-8 h-full flex justify-between items-center lg:container ">
-          <Link href={"/"}>
+          <Link href={"/"} className="w-16 md:w-fit">
             <Image
               src="/logo_fotto.webp"
               alt="logo"
