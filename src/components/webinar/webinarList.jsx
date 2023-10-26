@@ -40,16 +40,17 @@ function WebinarList() {
   return (
     <section className="flex flex-wrap gap-12 mt-12 items-center justify-center max-w-sm md:max-w-none lg:justify-start">
       {allWebinars?.map((webinar) => {
-        const { id, title, image, instructor, date } = webinar;
+        const { id, title, image, instructor, date, slug } = webinar;
+        console.log(webinar);
 
         return (
           <WebinarItem
             key={id}
-            id={id}
             date={date}
             instructor={instructor}
             title={title}
             image={image}
+            slug={slug}
           />
         );
       })}

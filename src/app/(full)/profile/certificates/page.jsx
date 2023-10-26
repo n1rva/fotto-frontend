@@ -2,6 +2,10 @@ import MyCertificates from "@/components/userprofile/myCertificates";
 import { cookies } from "next/headers";
 import React from "react";
 
+export const metadata = {
+  title: "Sertifikalarım | Fizyotto Live",
+};
+
 function UserCertificates() {
   const cookieStore = cookies();
 

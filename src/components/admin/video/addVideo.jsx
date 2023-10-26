@@ -10,6 +10,7 @@ import SingleWebinarItem from "@/components/webinar/singleWebinarItem";
 import { toastProps } from "@/utils/toastProps";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import SingleVideoItem from "@/components/video/singleVideoItem";
 
 function AddVideo({ access_token }) {
   const [name, setName] = useState("");
@@ -304,12 +305,12 @@ function AddVideo({ access_token }) {
         </div>
       </form>
       {showPreview && (
-        <SingleWebinarItem
+        <SingleVideoItem
           date={date}
           description={data}
           instructor={instructor}
           previewInstructorImage={previewInstructorImage}
-          previewWebinarImage={previewThumbnail}
+          previewThumbnail={previewThumbnail}
           price={price}
           title={name}
         />

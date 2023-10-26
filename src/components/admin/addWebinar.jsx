@@ -22,6 +22,7 @@ function AddWebinar({ access_token }) {
   const [instructorImage, setInstructorImage] = useState("");
   const [sourceCertificate, setSourceCertificate] = useState("");
   const [webinarImage, setWebinarImage] = useState("");
+  const [wpGroupUrl, setWpGroupUrl] = useState("");
 
   const [previewWebinarImage, setPreviewWebinarImage] = useState("");
   const [previewInstructorImage, setPreviewInstructorImage] = useState("");
@@ -133,6 +134,7 @@ function AddWebinar({ access_token }) {
         instructorImage,
         sourceCertificate,
         webinarImage,
+        wpGroupUrl,
       },
       access_token
     );
@@ -217,6 +219,21 @@ function AddWebinar({ access_token }) {
             />
           </div>
           <div className="relative space-y-3 flex flex-col">
+            <label htmlFor="wpGroupUrl" className="text-sm">
+              WhatsApp Grup Davet Linki
+            </label>
+            <input
+              type="text"
+              name="wpGroupUrl"
+              id="wpGroupUrl"
+              value={wpGroupUrl}
+              onChange={(e) => setWpGroupUrl(e.target.value)}
+              className="w-full h-12 p-3 placeholder-transparent text-black bg-transparent border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm lg:w-80"
+              placeholder="wpGroupUrl"
+              autoComplete="off"
+            />
+          </div>
+          <div className="relative space-y-3 flex flex-col">
             <label htmlFor="instructorImage" className="text-sm">
               Eğitmen Fotosu
             </label>
@@ -225,7 +242,6 @@ function AddWebinar({ access_token }) {
               name="instructorImage"
               id="instructorImage"
               onChange={instructorImageHandler}
-              // onChange={instructorImageHandle}
               className="relative m-0 block w-full min-w-0 flex-auto border border-secBlue rounded-md bg-clip-padding px-3 py-[0.32rem] text-sm text-fottoText transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-fottoOrange file:px-3 file:py-[0.32rem] file:text-black file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-fottoOrange/70 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none lg:w-80"
             />
           </div>
@@ -250,7 +266,6 @@ function AddWebinar({ access_token }) {
               name="webinarPhoto"
               id="webinarPhoto"
               onChange={webinarImageHandler}
-              // onChange={webinarPhotoHandle}
               className="relative m-0 block w-full min-w-0 flex-auto border border-secBlue rounded-md bg-clip-padding px-3 py-[0.32rem] text-sm text-fottoText transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-fottoOrange file:px-3 file:py-[0.32rem] file:text-black file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-fottoOrange/70 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none lg:w-80"
             />
           </div>

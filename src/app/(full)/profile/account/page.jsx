@@ -1,6 +1,10 @@
 import Me from "@/components/userprofile/me";
 import { cookies } from "next/headers";
 
+export const metadata = {
+  title: "Profilim | Fizyotto Live",
+};
+
 async function Account() {
   const cookieStore = cookies();
 

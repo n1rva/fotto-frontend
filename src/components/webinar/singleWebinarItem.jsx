@@ -1,10 +1,13 @@
 "use client";
 import Image from "next/image";
 import moment from "moment";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import PaymentContext from "@/context/PaymentContext";
 
 import { redirect, useRouter } from "next/navigation";
+import WebinarContext from "@/context/WebinarContext";
+import AuthContext from "@/context/AuthContext";
+import Link from "next/link";
 
 function SingleWebinarItem({
   image,
@@ -15,14 +18,32 @@ function SingleWebinarItem({
   price,
   description,
   webinarID,
+  wp_group_url,
   previewWebinarImage,
   previewInstructorImage,
+  access_token,
 }) {
   if (typeof description === "string") description = JSON.parse(description);
 
+  const [userHasWebinar, setUserHasWebinar] = useState(false);
+
   const { addItemToBasket } = useContext(PaymentContext);
+  const { checkIfUserHasWebinar } = useContext(WebinarContext);
+  const { user } = useContext(AuthContext);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      const checkUserWebinar = async () => {
+        const check = await checkIfUserHasWebinar(webinarID, access_token);
+        console.log(check);
+
+        setUserHasWebinar(check);
+      };
+      checkUserWebinar();
+    }
+  }, []);
 
   const createBasket = () => {
     addItemToBasket(
@@ -75,18 +96,32 @@ function SingleWebinarItem({
           <div className="flex flex-col w-full px-4 my-4">
             <h3 className="font-medium ">Planlanan Webinar Tarihi</h3>
             <span className="mt-3">
-              {moment(date).format("YYYY-MM-DD HH:mm")}
+              {moment(date).format("DD/MM/YYYY HH:mm")}
             </span>
           </div>
           <div className=" flex flex-col w-full px-4">
             <h3 className="font-medium">Katılım Ücreti</h3>
             <span className="mt-3">{price} TL</span>
-            <button
-              onClick={createBasket}
-              className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-4 text-white hover:opacity-80 "
-            >
-              Hemen Katıl
-            </button>
+            {userHasWebinar ? (
+              <Link
+                href={wp_group_url}
+                target="_blank"
+                className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-4 text-white hover:opacity-90 "
+              >
+                Gruba katıl
+              </Link>
+            ) : moment().diff(date) > 0 ? (
+              <button className="py-1 px-6 bg-fottoText rounded-lg w-fit mt-4 cursor-not-allowed text-white hover:opacity-90 ">
+                Tarihi geçmiş
+              </button>
+            ) : (
+              <button
+                onClick={createBasket}
+                className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-4 text-white hover:opacity-70 "
+              >
+                Hemen katıl
+              </button>
+            )}
           </div>
         </div>
       </div>

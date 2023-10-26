@@ -37,15 +37,15 @@ function VideoList() {
   return (
     <section className="flex flex-wrap gap-12 mt-12 items-center justify-center max-w-sm md:max-w-none lg:justify-start">
       {allVideos?.map((video) => {
-        const { id, date, instructor, thumbnail, title } = video;
+        const { id, date, instructor, thumbnail, title, slug } = video;
         return (
           <VideoItem
             key={id}
-            id={id}
             date={date}
             instructor={instructor}
             thumbnail={thumbnail}
             title={title}
+            slug={slug}
           />
         );
       })}

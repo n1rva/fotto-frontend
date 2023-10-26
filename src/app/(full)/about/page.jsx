@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Hakkımızda | Fizyotto Live",
-  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+  description:
+    "Fizyotto adıyla 2020 yılında fizyoterapist meslektaşlarımız için sosyal medya içerikleri üretmek için çıktığımız bu yolculuğa Fizyotto Live ile devam ediyoruz.",
 };
 
 function About() {

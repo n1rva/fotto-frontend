@@ -3,7 +3,6 @@ import SignupForm from "@/components/signup";
 
 export const metadata = {
   title: "Üye Ol | Fizyotto Live",
-  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
 };
 
 function Signup() {

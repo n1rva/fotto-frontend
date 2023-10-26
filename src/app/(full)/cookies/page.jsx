@@ -1,6 +1,5 @@
 export const metadata = {
   title: "Çerez Politikası | Fizyotto Live",
-  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
 };
 
 function Cookies() {

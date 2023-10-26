@@ -1,5 +1,8 @@
 import Payment from "@/components/payment";
-import Head from "next/head";
+
+export const metadata = {
+  title: `Ödeme | Fizyotto Live`,
+};
 
 function PaymentPage() {
   return (

@@ -1,4 +1,9 @@
+import Link from "next/link";
 import { BsCheckCircleFill } from "react-icons/bs";
+
+export const metadata = {
+  title: `Ödeme başarılı | Fizyotto Live`,
+};
 
 function Success() {
   return (
@@ -13,9 +18,12 @@ function Success() {
         <h2 className="text-fottoText">
           Ödemeniz başarıyla gerçekleşti. Teşekkür ederiz.
         </h2>
-        <button className="py-2 px-6 bg-darkerOrange rounded-lg text-white font-medium hover:bg-darkerOrange/90">
+        <Link
+          href={"/"}
+          className="py-2 px-6 bg-darkerOrange rounded-lg text-white font-medium hover:bg-darkerOrange/90"
+        >
           Anasayfaya dön
-        </button>
+        </Link>
       </div>
     </main>
   );

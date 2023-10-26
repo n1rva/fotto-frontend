@@ -51,7 +51,8 @@ function MyWebinars({ access_token }) {
             className="mySwiper"
           >
             {userWebinars.map((webinar, index) => {
-              const { date, title, instructor, image } = webinar;
+              console.log(webinar);
+              const { date, title, instructor, image, wp_group_url } = webinar;
 
               return (
                 <SwiperSlide key={index}>
@@ -61,6 +62,7 @@ function MyWebinars({ access_token }) {
                     instructor={instructor}
                     backgroundImage={image}
                     date={date}
+                    wpGroupUrl={wp_group_url}
                   />
                 </SwiperSlide>
               );

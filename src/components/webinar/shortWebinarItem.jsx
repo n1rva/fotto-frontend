@@ -2,6 +2,7 @@
 
 import moment from "moment";
 import Image from "next/image";
+import Link from "next/link";
 import { BsCalendar2Date } from "react-icons/bs";
 import { FaChalkboardTeacher } from "react-icons/fa";
 
@@ -12,6 +13,7 @@ function ShortWebinarItem({
   instructor,
   date,
   props = "",
+  wpGroupUrl = "",
 }) {
   return (
     <div
@@ -39,6 +41,19 @@ function ShortWebinarItem({
           <span className="ml-2 text-xs font-medium">
             {moment(date).format("DD/MM/YYYY HH:mm")}
           </span>
+        </div>
+        <div>
+          {wpGroupUrl && (
+            <div className="w-full flex justify-center">
+              <Link
+                href={wpGroupUrl}
+                target="_blank"
+                className="border border-fottoText bg-fottoOrange font-medium rounded-lg px-2 py-1 z-50"
+              >
+                Gruba Katıl
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

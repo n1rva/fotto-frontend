@@ -3,7 +3,8 @@ import { TbMail } from "react-icons/tb";
 
 export const metadata = {
   title: "İletişim | Fizyotto Live",
-  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+  description:
+    "Bize Fizyotto Live WhatsApp hattı, mail adresimiz ve sosyal medya hesaplarımız aracılığı her zaman ile ulaşabilirsiniz.",
 };
 
 function Contact() {

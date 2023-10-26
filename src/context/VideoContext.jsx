@@ -58,6 +58,28 @@ export const VideoProvider = ({ children }) => {
     }
   };
 
+  const getVideoBySlug = async (video_slug) => {
+    setVideoLoading(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/video/${video_slug}/slug`
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setVideoLoading(false);
+
+        return data;
+      } else {
+        throw new Error(data.message || "Webinar kaydına erişilemedi.");
+      }
+    } catch (error) {
+      setVideoLoading(false);
+      setVideoError(error.message || "Server hatası.");
+    }
+  };
+
   const createVideo = async (
     {
       title,
@@ -328,6 +350,28 @@ export const VideoProvider = ({ children }) => {
     }
   };
 
+  const checkIfUserHasVideo = async (videoID, access_token) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/video/${videoID}/check`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      const msg = await response.json();
+
+      if (msg.success) {
+        return msg.has_video;
+      }
+    } catch (error) {
+      setVideoError(error || "Server hatası.");
+    }
+  };
+
   const deleteVideoFromUser = async (videoID, userID, access_token) => {
     setVideoLoading(true);
 
@@ -451,10 +495,12 @@ export const VideoProvider = ({ children }) => {
       value={{
         getAllVideos,
         getVideo,
+        getVideoBySlug,
         createVideo,
         getUserVideos,
         getVideoParticipants,
         getCurrentUserVideos,
+        checkIfUserHasVideo,
         updateVideo,
         deleteVideo,
         deleteVideoFromUser,

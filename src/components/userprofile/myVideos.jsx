@@ -51,12 +51,12 @@ function MyVideos({ access_token }) {
             className="mySwiper"
           >
             {userVideos.map((video) => {
-              const { title, instructor, thumbnail, id, file } = video;
+              const { title, instructor, thumbnail, id, file, slug } = video;
 
               if (file) {
                 return (
                   <SwiperSlide key={id}>
-                    <Link href={`/videos/stream/${file.id}`}>
+                    <Link href={`/videos/stream/${slug}`}>
                       <ShortVideoItem
                         title={title}
                         instructor={instructor}

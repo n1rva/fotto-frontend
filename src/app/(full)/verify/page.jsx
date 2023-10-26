@@ -2,7 +2,7 @@ import VerifyCertificate from "@/components/certificate/verifyCertificate";
 
 export const metadata = {
   title: "Sertifika Doğrula | Fizyotto Live",
-  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
+  description: "Sahibi olduğunuz sertifikaları görüntüleyin.",
 };
 
 function Verify() {

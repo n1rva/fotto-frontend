@@ -1,4 +1,9 @@
+import Link from "next/link";
 import { BsXCircleFill } from "react-icons/bs";
+
+export const metadata = {
+  title: `Ödeme başarısız | Fizyotto Live`,
+};
 
 function Failure() {
   return (
@@ -13,9 +18,12 @@ function Failure() {
         <h2 className="text-fottoText">
           Ödeme yapılırken bir hata ile karşılaşıldı. Lütfen tekrar deneyin.
         </h2>
-        <button className="py-2 px-6 bg-darkerOrange rounded-lg text-white font-medium hover:bg-darkerOrange/90">
+        <Link
+          href={"/"}
+          className="py-2 px-6 bg-darkerOrange rounded-lg text-white font-medium hover:bg-darkerOrange/90"
+        >
           Anasayfaya dön
-        </button>
+        </Link>
       </div>
     </main>
   );

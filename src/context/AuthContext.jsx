@@ -45,6 +45,8 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
         router.push("/");
       } else {
+        setLoading(false);
+
         throw new Error(data.message);
       }
     } catch (error) {
@@ -172,6 +174,8 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         setLoading(false);
         setUser(data.user);
+      } else {
+        throw new Error(data.message);
       }
     } catch (error) {
       setLoading(false);

@@ -2,7 +2,6 @@ import PassResetForm from "@/components/passwordreset";
 
 export const metadata = {
   title: "Şifremi Unuttum | Fizyotto Live",
-  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
 };
 
 function PassReset() {

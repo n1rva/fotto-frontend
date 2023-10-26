@@ -27,6 +27,7 @@ function UpdateWebinar({ id, access_token }) {
   const [webinarImage, setWebinarImage] = useState(undefined);
   const [participants, setParticipants] = useState(undefined);
   const [certAdded, setCertAdded] = useState(false);
+  const [wpGroupUrl, setWpGroupUrl] = useState("");
 
   const [previewWebinarImage, setPreviewWebinarImage] = useState(undefined);
   const [previewInstructorImage, setPreviewInstructorImage] =
@@ -43,6 +44,8 @@ function UpdateWebinar({ id, access_token }) {
   const [activeParticipant, setActiveParticipant] = useState(undefined);
 
   const [webinarData, setWebinarData] = useState(undefined);
+
+  console.log(webinarData);
 
   const router = useRouter();
 
@@ -95,6 +98,7 @@ function UpdateWebinar({ id, access_token }) {
         setPreviewWebinarImage(webinar.image);
         setParticipants(webinar.participants);
         setCertAdded(webinar.certificates_added);
+        setWpGroupUrl(webinar.wp_group_url);
       }
     };
 
@@ -261,6 +265,8 @@ function UpdateWebinar({ id, access_token }) {
         webinarImage: webinarImage instanceof File ? webinarImage : undefined,
         certAdded:
           certAdded !== webinarData.certificates_added ? certAdded : undefined,
+        wpGroupUrl:
+          wpGroupUrl !== webinarData.wp_group_url ? wpGroupUrl : undefined,
       },
       access_token
     );
@@ -341,6 +347,21 @@ function UpdateWebinar({ id, access_token }) {
                 onChange={(e) => setInstructor(e.target.value)}
                 className="w-full h-12 p-3 placeholder-transparent text-black bg-transparent border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm lg:w-80"
                 placeholder="instructor"
+                autoComplete="off"
+              />
+            </div>
+            <div className="relative space-y-3 flex flex-col">
+              <label htmlFor="wpGroupUrl" className="text-sm">
+                WhatsApp Grup Davet Linki
+              </label>
+              <input
+                type="text"
+                name="wpGroupUrl"
+                id="wpGroupUrl"
+                value={wpGroupUrl}
+                onChange={(e) => setWpGroupUrl(e.target.value)}
+                className="w-full h-12 p-3 placeholder-transparent text-black bg-transparent border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm lg:w-80"
+                placeholder="wpGroupUrl"
                 autoComplete="off"
               />
             </div>

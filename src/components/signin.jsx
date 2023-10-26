@@ -90,9 +90,18 @@ function SigninForm() {
       <div className="flex flex-col items-center space-y-6">
         <button
           type="submit"
-          className="rounded-lg px-4 py-2 bg-secBlue hover:bg-opacity-70"
+          className={`rounded-lg px-4 py-2 bg-secBlue hover:bg-opacity-70 ${
+            loading ? "cursor-not-allowed" : "cursor-pointer"
+          }`}
+          disabled={loading}
         >
-          <span className="text-white font-medium text-sm ">Giriş Yap</span>
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <div className="animate-spin mx-2 rounded-full h-6 w-6 border-2 border-white border-t-fottoText" />
+            </div>
+          ) : (
+            <span className="text-white font-medium text-sm">Giriş yap</span>
+          )}
         </button>
       </div>
       <div className="mt-12 text-sm flex justify-center">

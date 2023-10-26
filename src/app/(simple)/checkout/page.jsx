@@ -1,6 +1,10 @@
 import Checkout from "@/components/checkout";
 import { cookies } from "next/headers";
 
+export const metadata = {
+  title: `Ödeme | Fizyotto Live`,
+};
+
 function CheckoutPage() {
   const cookieStore = cookies();
 

@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 import VideoJS from "../videoJS";
 
-function VideoFileView({ id }) {
+function VideoFileView({ slug }) {
   const videoRef = useRef(null);
 
   const playerRef = useRef(null);
@@ -17,7 +17,7 @@ function VideoFileView({ id }) {
 
     sources: [
       {
-        src: `${process.env.API_URL}/api/v1/video/file/${id}`,
+        src: `${process.env.API_URL}/api/v1/video/file/${slug}`,
         type: "video/mp4",
       },
     ],

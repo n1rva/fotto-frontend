@@ -2,6 +2,10 @@ import MyVideos from "@/components/userprofile/myVideos";
 
 import { cookies } from "next/headers";
 
+export const metadata = {
+  title: "Webinar Kayıtlarım | Fizyotto Live",
+};
+
 function UserWebinars() {
   const cookieStore = cookies();
 

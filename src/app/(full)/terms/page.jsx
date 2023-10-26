@@ -1,6 +1,5 @@
 export const metadata = {
   title: "Kullanım Koşulları | Fizyotto Live",
-  // description: "Fizyoterapistler İçin Online Eğitim Platformu🎓",
 };
 
 function Terms() {

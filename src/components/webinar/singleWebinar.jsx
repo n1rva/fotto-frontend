@@ -3,14 +3,14 @@ import WebinarContext from "@/context/WebinarContext";
 import React, { useContext, useEffect, useState } from "react";
 import SingleWebinarItem from "./singleWebinarItem";
 
-function SingleWebinar({ webinarID }) {
-  const { getWebinarByWebinarId } = useContext(WebinarContext);
+function SingleWebinar({ slug, access_token }) {
+  const { getWebinarBySlug } = useContext(WebinarContext);
 
   const [webinar, setWebinar] = useState("");
 
   useEffect(() => {
     const getSingleWebinar = async () => {
-      const data = await getWebinarByWebinarId(webinarID);
+      const data = await getWebinarBySlug(slug);
 
       setWebinar(data);
     };
@@ -28,7 +28,9 @@ function SingleWebinar({ webinarID }) {
           description={webinar.description}
           title={webinar.title}
           image={webinar.image}
-          webinarID={webinarID}
+          webinarID={webinar.id}
+          wp_group_url={webinar.wp_group_url}
+          access_token={access_token}
         />
       )}
     </main>

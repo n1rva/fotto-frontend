@@ -6,10 +6,10 @@ import Link from "next/link";
 import { BsCalendar2Date } from "react-icons/bs";
 import { FaChalkboardTeacher } from "react-icons/fa";
 
-function VideoItem({ id, thumbnail, title, instructor, date }) {
+function VideoItem({ thumbnail, title, instructor, date, slug }) {
   return (
     <Link
-      href={`videos/${id}`}
+      href={`videos/${slug}`}
       className="min-h-[20rem] w-48 bg-darkerMain border border-secBlue select-none cursor-pointer hover:border-[#fd8f00] rounded-b-lg"
     >
       <Image

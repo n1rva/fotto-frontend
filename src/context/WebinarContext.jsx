@@ -44,6 +44,7 @@ export const WebinarProvider = ({ children }) => {
       sourceCertificate,
       webinarImage,
       participants,
+      wpGroupUrl,
     },
     access_token
   ) => {
@@ -63,6 +64,7 @@ export const WebinarProvider = ({ children }) => {
       formData.append("source_certificate", sourceCertificate);
     formData.append("image", webinarImage);
     if (participants) formData.append("participants", participants);
+    if (wpGroupUrl) formData.append("wp_group_url", wpGroupUrl);
 
     try {
       const response = await fetch(
@@ -105,6 +107,7 @@ export const WebinarProvider = ({ children }) => {
       participants,
       webinarID,
       certAdded,
+      wpGroupUrl,
     },
     access_token
   ) => {
@@ -153,6 +156,10 @@ export const WebinarProvider = ({ children }) => {
 
       if (certAdded) {
         formData.append("certificates_added", certAdded);
+      }
+
+      if (wpGroupUrl) {
+        formData.append("wp_group_url", wpGroupUrl);
       }
 
       const response = await fetch(
@@ -214,8 +221,6 @@ export const WebinarProvider = ({ children }) => {
       setWebinarError("Server hatası.");
     }
   };
-
-  const getExpiredWebinars = async () => {};
 
   const getUserWebinars = async (id, access_token) => {
     setWebinarLoading(true);
@@ -294,6 +299,27 @@ export const WebinarProvider = ({ children }) => {
     }
   };
 
+  const getWebinarBySlug = async (slug, access_token) => {
+    setWebinarLoading(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/webinar/${slug}/slug`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setWebinarLoading(false);
+        return data.webinar;
+      } else {
+        throw new Error("Webinar getirilirken hata ile karşılaşıldı.");
+      }
+    } catch (error) {
+      setWebinarLoading(false);
+      setWebinarError("Server hatası.");
+    }
+  };
+
   const getWebinarParticipants = async (webinarID, access_token) => {
     setWebinarLoading(true);
 
@@ -342,6 +368,28 @@ export const WebinarProvider = ({ children }) => {
     }
   };
 
+  const checkIfUserHasWebinar = async (webinarID, access_token) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/webinar/${webinarID}/check`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      const msg = await response.json();
+
+      if (msg.success) {
+        return msg.has_webinar;
+      }
+    } catch (error) {
+      setWebinarError(error || "Server hatası.");
+    }
+  };
+
   const clearWebinarErrors = () => {
     setWebinarError(null);
   };
@@ -353,11 +401,13 @@ export const WebinarProvider = ({ children }) => {
         createWebinar,
         getUserWebinars,
         getWebinarByWebinarId,
+        getWebinarBySlug,
         getWebinarParticipants,
         getCurrentUserWebinars,
         updateWebinar,
         deleteWebinar,
         deleteWebinarFromUser,
+        checkIfUserHasWebinar,
         clearWebinarErrors,
         allWebinars,
         userWebinars,

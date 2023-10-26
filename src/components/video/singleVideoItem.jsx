@@ -1,7 +1,10 @@
+import AuthContext from "@/context/AuthContext";
 import PaymentContext from "@/context/PaymentContext";
+import VideoContext from "@/context/VideoContext";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 function SingleVideoItem({
   thumbnail,
@@ -11,12 +14,29 @@ function SingleVideoItem({
   price,
   description,
   videoID,
+  slug,
   previewThumbnail,
   previewInstructorImage,
+  access_token,
 }) {
   if (typeof description === "string") description = JSON.parse(description);
 
+  const [userHasVideo, setUserHasVideo] = useState(false);
+
   const { addItemToBasket } = useContext(PaymentContext);
+  const { checkIfUserHasVideo } = useContext(VideoContext);
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      const checkUserVideo = async () => {
+        const check = await checkIfUserHasVideo(videoID, access_token);
+
+        setUserHasVideo(check);
+      };
+      checkUserVideo();
+    }
+  }, []);
 
   const router = useRouter();
 
@@ -73,12 +93,21 @@ function SingleVideoItem({
               <h3 className="font-medium">Video Ücreti</h3>
               <span className="mt-3">{price} TL</span>
             </div>
-            <button
-              onClick={createBasket}
-              className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-12 text-white hover:opacity-80"
-            >
-              Hemen Al
-            </button>
+            {userHasVideo ? (
+              <Link
+                href={`/videos/stream/${slug}`}
+                className="py-1 px-6 bg-red-500 rounded-lg w-fit mt-12 text-white hover:opacity-90 "
+              >
+                İzle
+              </Link>
+            ) : (
+              <button
+                onClick={createBasket}
+                className="py-1 px-6 bg-fottoOrange rounded-lg w-fit mt-12 text-white hover:opacity-80"
+              >
+                Satın al
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -2,11 +2,11 @@
 import VideoFileView from "@/components/video/videoFileView";
 
 async function StreamVideo({ params }) {
-  const { videoID } = params;
+  const { video_slug } = params;
 
   return (
     <section className="min-h-screen">
-      <VideoFileView id={videoID} />
+      <VideoFileView slug={video_slug} />
     </section>
   );
 }
