@@ -2,7 +2,7 @@
 
 import AuthContext from "@/context/AuthContext";
 import CertificateContext from "@/context/CertificateContext";
-import WebinarContext from "@/context/WebinarContext";
+import VideoContext from "@/context/VideoContext";
 import { toastProps } from "@/utils/toastProps";
 import useDebounce from "@/utils/useDebounce";
 import { useRouter } from "next/navigation";
@@ -10,14 +10,14 @@ import { useContext, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 
-function AddCertificate({ access_token }) {
+function AddCertificateForVideo({ access_token }) {
   const [name, setName] = useState("");
   const [fontSize, setFontSize] = useState(20);
   const [color, setColor] = useState("#000000");
   const [yAxis, setYAxis] = useState(4);
   const [maxTextWidth, setMaxTextWidth] = useState(7.5);
   const [maxFontSize, setMaxFontSize] = useState(50);
-  const [webinar, setWebinar] = useState(undefined);
+  const [video, setVideo] = useState(undefined);
   const [font, setFont] = useState("");
 
   const [id_xAxis, setId_xAxis] = useState(2.4);
@@ -49,11 +49,11 @@ function AddCertificate({ access_token }) {
     certificateLoading,
     certificateError,
     clearCertificateErrors,
-    createCertificateForWebinarParticipants,
+    createCertificateForVideoParticipants,
     createCertificateByUserID,
   } = useContext(CertificateContext);
 
-  const { allWebinars, getAllWebinars } = useContext(WebinarContext);
+  const { allVideos, getAllVideos } = useContext(VideoContext);
 
   const { searchUsers, searchResults, setSearchResults, error, clearErrors } =
     useContext(AuthContext);
@@ -78,7 +78,7 @@ function AddCertificate({ access_token }) {
   };
 
   useEffect(() => {
-    getAllWebinars(access_token);
+    getAllVideos();
   }, []);
 
   useEffect(() => {
@@ -107,7 +107,7 @@ function AddCertificate({ access_token }) {
         maxTextWidth,
         maxFontSize,
         font,
-        source: webinar,
+        source: video,
         id_xAxis,
         id_yAxis,
         id_fontSize,
@@ -118,7 +118,7 @@ function AddCertificate({ access_token }) {
         qr_size,
         qr_bg,
         qr_fg,
-        certificate_type: "webinar",
+        certificate_type: "video",
       },
       access_token
     );
@@ -126,7 +126,7 @@ function AddCertificate({ access_token }) {
 
   const createCertificatesForParticipants = async () => {
     setLoading(true);
-    const response = await createCertificateForWebinarParticipants(
+    const response = await createCertificateForVideoParticipants(
       {
         fontSize,
         color,
@@ -134,7 +134,7 @@ function AddCertificate({ access_token }) {
         maxTextWidth,
         maxFontSize,
         font,
-        webinar,
+        video,
         id_xAxis,
         id_yAxis,
         id_fontSize,
@@ -171,7 +171,7 @@ function AddCertificate({ access_token }) {
         maxTextWidth,
         maxFontSize,
         font,
-        source: webinar,
+        source: video,
         id_xAxis,
         id_yAxis,
         id_fontSize,
@@ -182,7 +182,7 @@ function AddCertificate({ access_token }) {
         qr_size,
         qr_bg,
         qr_fg,
-        certificate_type: "webinar",
+        certificate_type: "video",
       },
       access_token
     );
@@ -369,20 +369,20 @@ function AddCertificate({ access_token }) {
               </div>
             </div>
             <div className="relative space-y-3 flex flex-col">
-              <label htmlFor="webinar" className="text-sm">
-                Webinar
+              <label htmlFor="video" className="text-sm">
+                Webinar kaydı
               </label>
               <select
-                name="webinar"
-                id="webinar"
-                value={webinar}
-                onChange={(e) => setWebinar(e.target.value)}
+                name="video"
+                id="video"
+                value={video}
+                onChange={(e) => setVideo(e.target.value)}
                 className="p-2 pr-9 block w-full border border-iconBlue rounded-lg text-sm outline-none focus:border-fottoOrange"
               >
                 <option disabled selected value="">
                   Seçiniz
                 </option>
-                {allWebinars?.map((e) => {
+                {allVideos?.map((e) => {
                   return (
                     <option value={e.id} className="cursor-pointer text-sm">
                       {e.title}
@@ -687,4 +687,4 @@ function AddCertificate({ access_token }) {
   );
 }
 
-export default AddCertificate;
+export default AddCertificateForVideo;

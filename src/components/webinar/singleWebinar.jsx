@@ -18,7 +18,7 @@ function SingleWebinar({ slug, access_token }) {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen flex-col">
       {webinar && (
         <SingleWebinarItem
           date={webinar.date}

@@ -8,6 +8,9 @@ export const WebinarProvider = ({ children }) => {
   const [allWebinars, setAllWebinars] = useState([]);
   const [userWebinars, setUserWebinars] = useState([]);
 
+  const [webinarFilters, setWebinarFilters] = useState([]);
+  const [filteredWebinars, setFilteredWebinars] = useState([]);
+
   const [webinarLoading, setWebinarLoading] = useState(false);
   const [webinarError, setWebinarError] = useState(null);
   const [info, setInfo] = useState("");
@@ -44,6 +47,7 @@ export const WebinarProvider = ({ children }) => {
       sourceCertificate,
       webinarImage,
       participants,
+      tags,
       wpGroupUrl,
     },
     access_token
@@ -63,6 +67,13 @@ export const WebinarProvider = ({ children }) => {
     if (sourceCertificate)
       formData.append("source_certificate", sourceCertificate);
     formData.append("image", webinarImage);
+
+    if (tags) {
+      tags.forEach((tag) => {
+        formData.append("tags[]", tag);
+      });
+    }
+
     if (participants) formData.append("participants", participants);
     if (wpGroupUrl) formData.append("wp_group_url", wpGroupUrl);
 
@@ -104,6 +115,7 @@ export const WebinarProvider = ({ children }) => {
       instructorImage,
       sourceCertificate,
       webinarImage,
+      tags,
       participants,
       webinarID,
       certAdded,
@@ -146,6 +158,12 @@ export const WebinarProvider = ({ children }) => {
 
       if (webinarImage) {
         formData.append("image", webinarImage);
+      }
+
+      if (tags) {
+        tags.forEach((tag) => {
+          formData.append("tags[]", tag);
+        });
       }
 
       if (participants) {
@@ -251,12 +269,64 @@ export const WebinarProvider = ({ children }) => {
     }
   };
 
-  const getCurrentUserWebinars = async (access_token) => {
+  const getCurrentUserActiveWebinars = async (access_token) => {
     setWebinarLoading(true);
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/v1/webinar/current`,
+        `${process.env.API_URL}/api/v1/webinar/current/active`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setWebinarLoading(false);
+        return data;
+      } else {
+        throw new Error("Webinar getirilirken hata ile karşılaşıldı.");
+      }
+    } catch (error) {
+      setWebinarLoading(false);
+      setWebinarError("Server hatası.");
+    }
+  };
+
+  const searchWebinar = async (access_token, query) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/webinar/search/${query}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        return data.webinars || [];
+      } else {
+        throw new Error(data.message || "Webinar bulunamadı.");
+      }
+    } catch (error) {
+      setWebinarLoading(false);
+      setWebinarError(error.message || "Server hatası.");
+    }
+  };
+
+  const getCurrentUserExpiredWebinars = async (access_token) => {
+    setWebinarLoading(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/webinar/current/expired`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -320,18 +390,80 @@ export const WebinarProvider = ({ children }) => {
     }
   };
 
+  const getFilters = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/webinar/filters`
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setWebinarFilters(data.tags || []);
+      } else {
+        throw new Error(data.message || "Filtrelere erişilemedi.");
+      }
+    } catch (error) {
+      setWebinarLoading(false);
+      setWebinarError(error.message || "Server hatası.");
+    }
+  };
+
+  const searchFilters = async (query) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/webinar/filters/search/${query}`
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        return data.tags || [];
+      } else {
+        throw new Error(data.message || "Filtrelere erişilemedi.");
+      }
+    } catch (error) {
+      setWebinarLoading(false);
+      setWebinarError(error.message || "Server hatası.");
+    }
+  };
+
+  const getWebinarsByTag = async (tags) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/webinar/filters/${tags}`
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFilteredWebinars(data.filtered_webinars);
+      } else {
+        throw new Error(data.message || "Video bulunamadı.");
+      }
+    } catch (error) {
+      setWebinarLoading(false);
+      setWebinarError(error.message || "Server hatası.");
+    }
+  };
+
   const getWebinarParticipants = async (webinarID, access_token) => {
     setWebinarLoading(true);
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/v1/webinar/${webinarID}/participants`
+        `${process.env.API_URL}/api/v1/webinar/${webinarID}/participants`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
       );
 
-      const data = await response.json();
+      if (response.ok) {
+        const data = await response.json();
 
-      if (data.success) {
         setWebinarLoading(false);
+
         return data;
       }
     } catch (error) {
@@ -390,6 +522,28 @@ export const WebinarProvider = ({ children }) => {
     }
   };
 
+  const deneme = async (access_token) => {
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/payment/deneme`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        return data;
+      }
+    } catch (error) {
+      setWebinarError(error || "Server hatası.");
+    }
+  };
+
   const clearWebinarErrors = () => {
     setWebinarError(null);
   };
@@ -403,19 +557,28 @@ export const WebinarProvider = ({ children }) => {
         getWebinarByWebinarId,
         getWebinarBySlug,
         getWebinarParticipants,
-        getCurrentUserWebinars,
+        getCurrentUserActiveWebinars,
+        getCurrentUserExpiredWebinars,
         updateWebinar,
         deleteWebinar,
         deleteWebinarFromUser,
         checkIfUserHasWebinar,
+        searchWebinar,
+        getFilters,
+        searchFilters,
+        getWebinarsByTag,
         clearWebinarErrors,
         allWebinars,
         userWebinars,
+        filteredWebinars,
+        webinarFilters,
         webinarLoading,
         webinarError,
         info,
         setInfo,
         setUserWebinars,
+
+        deneme,
       }}
     >
       {children}

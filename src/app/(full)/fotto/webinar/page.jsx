@@ -1,4 +1,4 @@
-import ManageWebinars from "@/components/admin/webinar/manageWebinars";
+import SearchWebinars from "@/components/usermanagement/webinars/searchWebinars";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { MdPersonalVideo } from "react-icons/md";
@@ -24,7 +24,8 @@ function WebinarManagement() {
       </div>
       <div>
         <h3 className=" my-6 text-2xl font-medium">Webinar Düzelt</h3>
-        <ManageWebinars access_token={accessToken.value} />
+        {/* <ManageWebinars access_token={accessToken.value} /> */}
+        <SearchWebinars access_token={accessToken.value} />
       </div>
     </div>
   );

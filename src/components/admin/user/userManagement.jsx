@@ -47,6 +47,7 @@ function UserManagement({ access_token }) {
           {searchResults?.map((user) => {
             return (
               <Link
+                key={user.id}
                 href={`fotto/users/${user.id}`}
                 className="py-2 px-3 flex flex-col text-sm font-medium text-gray-600 hover:bg-slate-100"
               >

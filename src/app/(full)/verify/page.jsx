@@ -7,7 +7,7 @@ export const metadata = {
 
 function Verify() {
   return (
-    <main className="h-screen">
+    <main className="min-h-screen my-12">
       <VerifyCertificate />
     </main>
   );

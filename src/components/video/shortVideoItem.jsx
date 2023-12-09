@@ -6,7 +6,7 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 function ShortVideoItem({ backgroundImage, title, instructor, props }) {
   return (
     <div
-      className={`relative h-48 w-48 flex flex-col items-center py-1 px-3 rounded-lg bg-secBlue/20 border border-secBlue ${props}`}
+      className={`relative h-48 w-48 flex flex-col items-center py-1 px-3 rounded-lg bg-secBlue/20 border border-secBlue ${props} hover:opacity-80`}
     >
       <Image
         src={`${process.env.API_URL}/${backgroundImage}`}

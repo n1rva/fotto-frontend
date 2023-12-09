@@ -51,7 +51,7 @@ export const CertificateProvider = ({ children }) => {
       maxTextWidth,
       maxFontSize,
       font,
-      webinar,
+      source,
       id_xAxis,
       id_yAxis,
       id_fontSize,
@@ -76,7 +76,7 @@ export const CertificateProvider = ({ children }) => {
       formData.append("max_text_width", maxTextWidth);
       formData.append("max_font_size", maxFontSize);
       formData.append("font", font);
-      formData.append("webinar_id", webinar);
+      formData.append("source_id", source);
 
       formData.append("id_x_axis", id_xAxis);
       formData.append("id_y_axis", id_yAxis);
@@ -89,6 +89,8 @@ export const CertificateProvider = ({ children }) => {
       formData.append("qr_size", qr_size);
       formData.append("qr_bg", qr_bg);
       formData.append("qr_fg", qr_fg);
+
+      formData.append("certificate_type", certificate_type);
 
       const response = await fetch(
         `${process.env.API_URL}/api/v1/certificate`,
@@ -127,7 +129,7 @@ export const CertificateProvider = ({ children }) => {
       maxTextWidth,
       maxFontSize,
       font,
-      webinar,
+      source,
       id_xAxis,
       id_yAxis,
       id_fontSize,
@@ -138,6 +140,7 @@ export const CertificateProvider = ({ children }) => {
       qr_size,
       qr_bg,
       qr_fg,
+      certificate_type,
     },
     access_token
   ) => {
@@ -151,7 +154,7 @@ export const CertificateProvider = ({ children }) => {
     formData.append("max_text_width", maxTextWidth);
     formData.append("max_font_size", maxFontSize);
     formData.append("font", font);
-    formData.append("webinar_id", webinar);
+    formData.append("source_id", source);
 
     formData.append("id_x_axis", id_xAxis);
     formData.append("id_y_axis", id_yAxis);
@@ -164,6 +167,8 @@ export const CertificateProvider = ({ children }) => {
     formData.append("qr_size", qr_size);
     formData.append("qr_bg", qr_bg);
     formData.append("qr_fg", qr_fg);
+
+    formData.append("certificate_type", certificate_type);
 
     try {
       setCertificateLoading(false);
@@ -192,12 +197,43 @@ export const CertificateProvider = ({ children }) => {
     }
   };
 
-  const getCurrentUsersCertificates = async (access_token) => {
+  const getCurrentUsersWebinarCertificates = async (access_token) => {
     setCertificateLoading(true);
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/v1/certificate/user`,
+        `${process.env.API_URL}/api/v1/certificate/user/webinar`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+
+        setCertificateLoading(false);
+
+        return data;
+      } else {
+        throw new Error("Hatayla karşılaşıldı.");
+      }
+    } catch (error) {
+      setCertificateLoading(false);
+      setCertificateError(
+        error.message || "Server kaynaklı bir hata ile karşılaşıldı."
+      );
+    }
+  };
+
+  const getCurrentUsersVideoCertificates = async (access_token) => {
+    setCertificateLoading(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/certificate/user/video`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -334,7 +370,82 @@ export const CertificateProvider = ({ children }) => {
       formData.append("qr_fg", qr_fg);
 
       const response = await fetch(
-        `${process.env.API_URL}/api/v1/certificate/participants`,
+        `${process.env.API_URL}/api/v1/certificate/participants/webinar`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+
+        setCertificateLoading(false);
+
+        return data;
+      } else {
+        throw new Error("Sertifika oluşturulurken hata ile karşılaşıldı.");
+      }
+    } catch (error) {
+      setCertificateLoading(false);
+      setCertificateError(
+        error.message || "Sertifika oluşturulurken hata ile karşılaşıldı."
+      );
+    }
+  };
+
+  const createCertificateForVideoParticipants = async (
+    {
+      fontSize,
+      color,
+      yAxis,
+      maxTextWidth,
+      maxFontSize,
+      font,
+      video,
+      id_xAxis,
+      id_yAxis,
+      id_fontSize,
+      id_font,
+      id_color,
+      qr_x,
+      qr_y,
+      qr_size,
+      qr_bg,
+      qr_fg,
+    },
+    access_token
+  ) => {
+    setCertificateLoading(true);
+
+    try {
+      const formData = new FormData();
+
+      formData.append("font_size", fontSize);
+      formData.append("color", color);
+      formData.append("y_axis", yAxis);
+      formData.append("max_text_width", maxTextWidth);
+      formData.append("max_font_size", maxFontSize);
+      formData.append("font", font);
+      formData.append("video_id", video);
+
+      formData.append("id_x_axis", id_xAxis);
+      formData.append("id_y_axis", id_yAxis);
+      formData.append("id_font_size", id_fontSize);
+      formData.append("id_font", id_font);
+      formData.append("id_color", id_color);
+
+      formData.append("qr_x", qr_x);
+      formData.append("qr_y", qr_y);
+      formData.append("qr_size", qr_size);
+      formData.append("qr_bg", qr_bg);
+      formData.append("qr_fg", qr_fg);
+
+      const response = await fetch(
+        `${process.env.API_URL}/api/v1/certificate/participants/video`,
         {
           method: "POST",
           body: formData,
@@ -398,11 +509,13 @@ export const CertificateProvider = ({ children }) => {
         getCertificatesByUserID,
         createAndPreviewCertificate,
         createCertificateByUserID,
-        getCurrentUsersCertificates,
+        getCurrentUsersWebinarCertificates,
+        getCurrentUsersVideoCertificates,
         getCertificateByUniqueID,
         deleteCertificate,
         clearCertificateErrors,
         createCertificateForWebinarParticipants,
+        createCertificateForVideoParticipants,
         verifyCertificate,
         setUsersCertificates,
       }}

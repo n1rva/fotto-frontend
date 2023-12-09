@@ -1,4 +1,5 @@
 import ManageVideos from "@/components/admin/video/manageVideos";
+import SearchVideos from "@/components/usermanagement/video/searchVideos";
 
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -31,7 +32,7 @@ function WebinarManagement() {
       </div>
       <div>
         <h3 className=" my-6 text-2xl font-medium">Webinar Kaydını Düzelt</h3>
-        <ManageVideos access_token={accessToken.value} />
+        <SearchVideos access_token={accessToken.value} />
       </div>
     </div>
   );

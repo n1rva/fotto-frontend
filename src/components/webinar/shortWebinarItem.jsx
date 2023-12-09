@@ -17,7 +17,7 @@ function ShortWebinarItem({
 }) {
   return (
     <div
-      className={`relative h-48 w-48 flex flex-col items-center py-1 px-3 rounded-lg bg-secBlue/20 border border-secBlue ${props}`}
+      className={`relative h-48 w-48 flex flex-col items-center py-1 px-3 rounded-lg bg-secBlue/20 border border-secBlue ${props} hover:opacity-80`}
     >
       <Image
         src={`${process.env.API_URL}${backgroundImage}`}
@@ -48,7 +48,7 @@ function ShortWebinarItem({
               <Link
                 href={wpGroupUrl}
                 target="_blank"
-                className="border border-fottoText bg-fottoOrange font-medium rounded-lg px-2 py-1 z-50"
+                className="border border-transparent bg-fottoOrange font-medium rounded-lg px-2 py-1 z-50 text-white hover:border-fottoText"
               >
                 Gruba Katıl
               </Link>

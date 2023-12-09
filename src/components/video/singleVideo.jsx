@@ -18,7 +18,7 @@ function SingleVideo({ slug, access_token }) {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
+    <div className="flex min-h-screen flex-col ">
       {video && (
         <SingleVideoItem
           instructor={video.instructor}

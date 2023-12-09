@@ -7,8 +7,7 @@ export const metadata = {
 
 async function Webinars() {
   return (
-    <main className="flex flex-col px-8 items-center my-10 min-h-screen md:mx-auto md:container md:items-start md:max-w-3xl xl:max-w-7xl">
-      <h3 className="text-lg font-medium xl:text-2xl">Planlanan Webinarlar</h3>
+    <main className="min-h-screen my-12">
       <WebinarList />
     </main>
   );

@@ -7,7 +7,6 @@ export async function generateMetadata({ params }) {
   const product = await fetch(
     `${process.env.API_URL}/api/v1/video/${slug}/slug`
   ).then((res) => res.json());
-  console.log(product);
 
   return {
     title: `${product.video.title} | Fizyotto Live`,
@@ -23,7 +22,7 @@ async function SingleVideoPage({ params }) {
   const accessToken = cookieStore.get("access");
   return (
     <>
-      <SingleVideo slug={params.video_slug} access_token={accessToken.value} />
+      <SingleVideo slug={params.video_slug} access_token={accessToken?.value} />
     </>
   );
 }

@@ -71,7 +71,7 @@ function Footer() {
           <div className="flex flex-col space-y-6 flex-1 lg:flex-auto">
             <h3 className="font-bold mb-3">Bizi Takip Et</h3>
             <Link
-              href={"https://www.instagram.com/fizyotto/"}
+              href={"https://www.instagram.com/fizyottolive/"}
               className="hover:opacity-80"
             >
               Instagram
@@ -88,7 +88,7 @@ function Footer() {
       {/* logo */}
       <div className="mt-20 w-80 flex flex-col space-y-8 lg:space-y-0 lg:self-end lg:mt-3">
         <Image
-          src={"/iyzicocolor.webp"}
+          src={"/payment.webp"}
           width={100}
           height={100}
           sizes="100vw"

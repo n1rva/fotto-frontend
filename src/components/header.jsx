@@ -15,16 +15,16 @@ function Header() {
 
   return (
     <>
-      <header className="sticky top-0 h-12 bg-white bg-opacity-50 border-b backdrop-blur-sm z-30 lg:h-16">
-        <div className="max-w-md mx-auto px-8 h-full flex justify-between items-center lg:container ">
-          <Link href={"/"} className="w-16 md:w-fit">
+      <header className="sticky top-0 h-12 bg-white bg-opacity-50 backdrop-blur-sm z-30 lg:h-16">
+        <div className=" mx-auto px-8 h-full flex justify-between items-center lg:container ">
+          <Link href={"/"} className="w-16 xl:w-fit">
             <Image
               src="/logo_fotto.webp"
               alt="logo"
               width={100}
               height={100}
               sizes="10vw"
-              className="h-10 w-full lg:h-12"
+              className="h-full w-full xl:h-12"
             />
           </Link>
           <div className="flex flex-col items-start select-none">
@@ -45,13 +45,13 @@ function Header() {
                 Sertifika Doğrula
               </Link>
               <Link href={"/webinars"} className="hover:opacity-80">
-                Webinarlar
+                Planlanan Webinarlar
               </Link>
               <Link href={"/videos"} className="hover:opacity-80">
-                Webinar Kayıtları
+                Webinar Arşivi
               </Link>
-              <Link href={"/about"} className="hover:opacity-80">
-                Hakkımızda
+              <Link href={"/contact"} className="hover:opacity-80">
+                Bize Ulaşın
               </Link>
               {isAuthenticated ? (
                 <Link
@@ -83,11 +83,11 @@ function Header() {
         />
       </div>
       <div
-        className={`fixed top-0 right-0 h-full w-1/2 px-3 bg-darkerMain ease-in-out duration-300 z-50
+        className={`fixed overflow-y-auto no-scrollbar top-0 right-0 h-full w-2/3 px-3 bg-darkerMain ease-in-out duration-300 z-50
              ${isOpen ? "translate-x-0 " : "translate-x-full"}
             `}
       >
-        <div className="flex flex-col select-none">
+        <div className="flex flex-col select-none ">
           <button
             onClick={() => setIsOpen(false)}
             className="flex items-center fill-white self-end mt-1 mr-4 p-1"
@@ -96,13 +96,21 @@ function Header() {
           </button>
           <ul
             onClick={() => setIsOpen(false)}
-            className="flex flex-col py-1 my-20 font-medium text-xl"
+            className="flex flex-col py-1 my-8 font-bold text-lg"
           >
+            {user?.is_admin && (
+              <Link
+                href={"/fotto"}
+                className="h-16 px-4 w-full flex items-center space-x-2  hover:bg-sec/40"
+              >
+                Admin İşlemleri
+              </Link>
+            )}
             {isAuthenticated ? (
               <li className="rounded-md hover:bg-gray/30">
                 <Link
                   href={"/profile"}
-                  className="h-20 px-4 w-full flex items-center space-x-2  hover:bg-sec/40"
+                  className="h-16 px-4 w-full flex items-center space-x-2  hover:bg-sec/40"
                 >
                   {/* <FaUserPlus className="w-6 h-6 fill-lightBlue" /> */}
                   <span>Profilim</span>
@@ -112,7 +120,7 @@ function Header() {
               <li className="rounded-md hover:bg-gray/30">
                 <Link
                   href={"/signin"}
-                  className="h-20 px-4 w-full flex items-center space-x-2  hover:bg-sec/40"
+                  className="h-16 px-4 w-full flex items-center space-x-2  hover:bg-sec/40"
                 >
                   {/* <FaUserPlus className="w-6 h-6 fill-lightBlue" /> */}
                   <span>Giriş Yap</span>
@@ -121,8 +129,17 @@ function Header() {
             )}
             <li className="rounded-md hover:bg-gray/30">
               <Link
+                href={"/verify"}
+                className="h-16 px-4 w-full flex items-center space-x-2 hover:bg-sec/40"
+              >
+                {/* <FaSignInAlt className="w-6 h-6 fill-lightBlue" /> */}
+                <span>Sertifika Doğrula</span>
+              </Link>
+            </li>
+            <li className="rounded-md hover:bg-gray/30">
+              <Link
                 href={"/webinars"}
-                className="h-20 px-4 w-full flex items-center space-x-2 hover:bg-sec/40"
+                className="h-16 px-4 w-full flex items-center space-x-2 hover:bg-sec/40"
               >
                 {/* <FaSignInAlt className="w-6 h-6 fill-lightBlue" /> */}
                 <span>Webinarlar</span>
@@ -131,19 +148,19 @@ function Header() {
             <li className="rounded-md hover:bg-gray/30">
               <Link
                 href={"/videos"}
-                className="h-20 px-4 w-full flex items-center space-x-2 hover:bg-sec/40"
+                className="h-16 px-4 w-full flex items-center space-x-2 hover:bg-sec/40"
               >
                 {/* <FaSignInAlt className="w-6 h-6 fill-lightBlue" /> */}
-                <span>Webinar Kayıtları</span>
+                <span>Webinar Arşivi</span>
               </Link>
             </li>
             <li className="rounded-md hover:bg-gray/30">
               <Link
-                href={"/about"}
-                className="h-20 px-4 w-full flex items-center space-x-2  hover:bg-sec/40"
+                href={"/contact"}
+                className="h-16 px-4 w-full flex items-center space-x-2  hover:bg-sec/40"
               >
                 {/* <FaUserPlus className="w-6 h-6 fill-lightBlue" /> */}
-                <span>Hakkımızda</span>
+                <span>Bize Ulaşın</span>
               </Link>
             </li>
           </ul>

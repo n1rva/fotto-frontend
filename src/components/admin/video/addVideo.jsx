@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Datetime from "react-datetime";
 import moment from "moment";
 import "react-datetime/css/react-datetime.css";
@@ -11,6 +11,9 @@ import { toastProps } from "@/utils/toastProps";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import SingleVideoItem from "@/components/video/singleVideoItem";
+import useDebounce from "@/utils/useDebounce";
+import { MdOutlineClose } from "react-icons/md";
+import { BsPlusLg } from "react-icons/bs";
 
 function AddVideo({ access_token }) {
   const [name, setName] = useState("");
@@ -26,12 +29,25 @@ function AddVideo({ access_token }) {
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [previewInstructorImage, setPreviewInstructorImage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+  const [sourceCertificate, setSourceCertificate] = useState("");
+
+  const [newFilters, setNewFilters] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState([]);
+  const [filterQuery, setFilterQuery] = useState("");
+  const [filterResults, setFilterResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
-  const { createVideo } = useContext(VideoContext);
+  const { createVideo, getFilters, searchFilters } = useContext(VideoContext);
 
   const router = useRouter();
+
+  const searchFilterRef = useRef(null);
+
+  useEffect(() => {
+    getFilters();
+  }, []);
 
   const addSection = () => {
     let sectionCount;
@@ -106,6 +122,49 @@ function AddVideo({ access_token }) {
     reader.readAsDataURL(file);
   };
 
+  const sourceCertificateHandle = (e) => {
+    setSourceCertificate(e.target.files[0]);
+  };
+
+  const searchFilterByQuery = async (query) => {
+    const filters = await searchFilters(query);
+
+    if (filters.length) {
+      setFilterResults(filters);
+    }
+  };
+
+  const addNewFilter = (filter) => {
+    if (
+      !newFilters.some(
+        (existingFilter) =>
+          existingFilter.toLowerCase() === filter.toLowerCase()
+      )
+    ) {
+      setNewFilters((prevFilters) => [...prevFilters, filter]);
+    }
+
+    setFilterQuery("");
+    searchFilterRef.current?.focus();
+  };
+
+  const deleteNewFilter = (filter) => {
+    const newArray = newFilters.filter((item) => item !== filter);
+    setNewFilters(newArray);
+  };
+
+  const debouncedSearchTerm = useDebounce(filterQuery, 200);
+
+  useEffect(() => {
+    if (debouncedSearchTerm.length > 2) {
+      searchFilterByQuery(debouncedSearchTerm);
+      // setSearchIsLoading(false);
+    } else {
+      // setSearchIsLoading(false);
+      setFilterResults([]);
+    }
+  }, [debouncedSearchTerm]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -119,6 +178,8 @@ function AddVideo({ access_token }) {
         date: date.format(),
         instructor,
         instructorImage,
+        sourceCertificate,
+        tags: newFilters.concat(selectedFilters),
         thumbnail,
       },
       access_token
@@ -219,6 +280,18 @@ function AddVideo({ access_token }) {
             />
           </div>
           <div className="flex flex-col space-y-3">
+            <label htmlFor="sourceCertificate" className="text-sm">
+              Kaynak Sertifika
+            </label>
+            <input
+              type="file"
+              name="sourceCertificate"
+              id="sourceCertificate"
+              onChange={sourceCertificateHandle}
+              className="relative m-0 block w-full min-w-0 flex-auto border border-secBlue rounded-md bg-clip-padding px-3 py-[0.32rem] text-sm text-fottoText transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-fottoOrange file:px-3 file:py-[0.32rem] file:text-black file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-fottoOrange/70 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none lg:w-80"
+            />
+          </div>
+          <div className="flex flex-col space-y-3">
             <label htmlFor="thumbnail" className="text-sm">
               Thumbnail
             </label>
@@ -253,6 +326,70 @@ function AddVideo({ access_token }) {
           </div>
         </div>
         <div className="flex flex-col space-y-5">
+          <div className="relative">
+            <div className="flex flex-col relative space-y-3">
+              <label htmlFor="tags" className="text-sm">
+                Tagler
+              </label>
+              <input
+                ref={searchFilterRef}
+                type="text"
+                name="tags"
+                id="tags"
+                onFocus={() => setShowResults(true)}
+                value={filterQuery}
+                onChange={(e) => setFilterQuery(e.target.value)}
+                className="w-full h-12 p-3 pr-12 text-black border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm lg:w-80"
+                placeholder="Fizyoterapi"
+                autoComplete="off"
+              />
+              <button
+                type="button"
+                onClick={() => addNewFilter(filterQuery)}
+                className="absolute right-3 top-8 text-fottoOrange hover:opacity-80"
+              >
+                Ekle
+              </button>
+              <div className="space-y-2">
+                {newFilters?.map((filter, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex justify-between px-2 py-1 bg-slate-100 shadow rounded-sm capitalize"
+                    >
+                      <h3>{filter}</h3>
+                      <button
+                        type="button"
+                        onClick={() => deleteNewFilter(filter)}
+                      >
+                        <MdOutlineClose />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {showResults && (
+              <div className=" absolute flex-col top-24 left-0 w-full shadow bg-white">
+                {filterResults &&
+                  filterResults.map((filter, index) => {
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => addNewFilter(filter.name)}
+                        key={index}
+                        className="w-full px-2 space-x-3 bg-[#DCFAFF] flex items-center hover:opacity-80"
+                      >
+                        <BsPlusLg />
+                        <span className="w-full flex items-center py-1">
+                          {filter.name}
+                        </span>
+                      </button>
+                    );
+                  })}
+              </div>
+            )}
+          </div>
           {Object.keys(data).map((sectionKey) => (
             <div
               key={sectionKey}

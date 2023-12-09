@@ -42,16 +42,16 @@ function CertificateManagement({ userID, access_token }) {
           className="mySwiper"
         >
           {usersCertificates.map((certificate, index) => {
-            const { id, unique_id, webinar } = certificate;
+            const { id, unique_id, webinar, video } = certificate;
 
             return (
               <SwiperSlide key={id}>
                 <CertificateItem
                   id={id}
                   unique_id={unique_id}
-                  title={webinar.title}
-                  date={webinar.date}
-                  instructor={webinar.instructor}
+                  title={webinar?.title || video.title}
+                  date={webinar?.date || video.date}
+                  instructor={webinar?.instructor || video.instructor}
                   access_token={access_token}
                 />
               </SwiperSlide>

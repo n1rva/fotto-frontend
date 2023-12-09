@@ -3,35 +3,29 @@
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { BsCalendar2Date } from "react-icons/bs";
-import { FaChalkboardTeacher } from "react-icons/fa";
 
 function WebinarItem({ image, title, instructor, date, slug }) {
   return (
     <Link
       href={`webinars/${slug}`}
-      className="min-h-[20rem] w-48 bg-darkerMain border border-secBlue select-none cursor-pointer hover:border-[#fd8f00] rounded-b-lg"
+      className="min-w-[18rem] w-72 border border-transparent rounded-xl shadow-md product"
     >
-      <Image
-        src={`${process.env.API_URL}${image}`}
-        width={100}
-        height={100}
-        sizes="100vw"
-        className="w-full max-h-40"
-        alt="webinar bg"
-      />
-      <h4 className="font-bold text-sm text-center p-1 wrapword">{title}</h4>
-      <div className="p-3 space-y-3">
-        <div className="flex items-center ">
-          <FaChalkboardTeacher className="text-fottoOrange" />
-          <span className="ml-2 text-xs font-medium">{instructor}</span>
-        </div>
-        <div className="flex items-center ">
-          <BsCalendar2Date className="text-fottoOrange" />
-          <span className="ml-2 text-xs font-medium">
-            {moment(date).format("DD/MM/YYYY HH:mm")}
-          </span>
-        </div>
+      <div className="p-3">
+        <Image
+          src={`${process.env.API_URL}${image}`}
+          width={100}
+          height={100}
+          sizes="100vw"
+          className="w-full max-h-52 rounded-lg"
+          alt="webinar bg"
+        />
+      </div>
+      <div className="px-8 py-2 space-y-6 text-sm">
+        <h1 className="h-20 font-bold wrapword">{title}</h1>
+        <h2 className="font-medium">{instructor}</h2>
+        <h3 className="font-bold text-base text-center  text-fottoOrange">
+          {moment(date).format("DD/MM/YYYY HH:mm")}
+        </h3>
       </div>
     </Link>
   );

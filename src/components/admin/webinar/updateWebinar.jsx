@@ -1,10 +1,10 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Datetime from "react-datetime";
 import moment from "moment";
 import "react-datetime/css/react-datetime.css";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsPlusCircle, BsPlusLg } from "react-icons/bs";
 import WebinarContext from "@/context/WebinarContext";
 import SingleWebinarItem from "@/components/webinar/singleWebinarItem";
 import AuthContext from "@/context/AuthContext";
@@ -13,6 +13,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { toast } from "react-toastify";
 import { toastProps } from "@/utils/toastProps";
 import { useRouter } from "next/navigation";
+import { MdOutlineClose } from "react-icons/md";
 
 function UpdateWebinar({ id, access_token }) {
   const [title, setTitle] = useState("");
@@ -23,6 +24,7 @@ function UpdateWebinar({ id, access_token }) {
   const [date, setDate] = useState(moment());
   const [instructor, setInstructor] = useState("");
   const [instructorImage, setInstructorImage] = useState(undefined);
+  const [tags, setTags] = useState(undefined);
   const [sourceCertificate, setSourceCertificate] = useState(undefined);
   const [webinarImage, setWebinarImage] = useState(undefined);
   const [participants, setParticipants] = useState(undefined);
@@ -45,7 +47,13 @@ function UpdateWebinar({ id, access_token }) {
 
   const [webinarData, setWebinarData] = useState(undefined);
 
-  console.log(webinarData);
+  const [newFilters, setNewFilters] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState([]);
+  const [filterQuery, setFilterQuery] = useState("");
+  const [filterResults, setFilterResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+
+  const searchFilterRef = useRef(null);
 
   const router = useRouter();
 
@@ -53,6 +61,7 @@ function UpdateWebinar({ id, access_token }) {
     getWebinarByWebinarId,
     updateWebinar,
     getWebinarParticipants,
+    searchFilters,
     info,
     setInfo,
     webinarError,
@@ -85,6 +94,12 @@ function UpdateWebinar({ id, access_token }) {
     const getWebinar = async () => {
       const webinar = await getWebinarByWebinarId(id);
 
+      const webinarTags = webinar.tags.map((e) => {
+        return e.name;
+      });
+
+      webinar.tags = webinarTags;
+
       if (webinar) {
         setWebinarData(webinar);
 
@@ -94,6 +109,7 @@ function UpdateWebinar({ id, access_token }) {
         setDate(moment(webinar.date));
         setInstructor(webinar.instructor);
         setPreviewInstructorImage(webinar.instructor_image);
+        setNewFilters(webinarTags);
         setSourceCertificate(webinar.source_certificate);
         setPreviewWebinarImage(webinar.image);
         setParticipants(webinar.participants);
@@ -242,6 +258,44 @@ function UpdateWebinar({ id, access_token }) {
     );
   };
 
+  const searchFilterByQuery = async (query) => {
+    const filters = await searchFilters(query);
+    if (filters.length) {
+      setFilterResults(filters);
+    }
+  };
+
+  const addNewFilter = (filter) => {
+    if (
+      !newFilters.some(
+        (existingFilter) =>
+          existingFilter.toLowerCase() === filter.toLowerCase()
+      )
+    ) {
+      setNewFilters((prevFilters) => [...prevFilters, filter]);
+    }
+
+    setFilterQuery("");
+    searchFilterRef.current?.focus();
+  };
+
+  const deleteNewFilter = (filter) => {
+    const newArray = newFilters.filter((item) => item !== filter);
+    setNewFilters(newArray);
+  };
+
+  const debouncedFilterTerm = useDebounce(filterQuery, 200);
+
+  useEffect(() => {
+    if (debouncedFilterTerm.length > 2) {
+      searchFilterByQuery(debouncedFilterTerm);
+      // setSearchIsLoading(false);
+    } else {
+      // setSearchIsLoading(false);
+      setFilterResults([]);
+    }
+  }, [debouncedFilterTerm]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -258,6 +312,10 @@ function UpdateWebinar({ id, access_token }) {
           instructor !== webinarData.instructor ? instructor : undefined,
         instructorImage:
           instructorImage instanceof File ? instructorImage : undefined,
+        tags:
+          newFilters.concat(selectedFilters) !== webinarData.tags
+            ? newFilters.concat(selectedFilters)
+            : undefined,
         participants:
           participants !== webinarData.participants ? participants : undefined,
         sourceCertificate:
@@ -284,6 +342,7 @@ function UpdateWebinar({ id, access_token }) {
 
   return (
     <div className="container flex flex-col items-center py-8">
+      <h1 className="text-lg font-medium md:text-2xl">Webinarı düzenle</h1>
       <form
         method="post"
         onSubmit={handleSubmit}
@@ -419,6 +478,70 @@ function UpdateWebinar({ id, access_token }) {
             </div>
           </div>
           <div className="flex flex-col space-y-5">
+            <div className="relative">
+              <div className="flex flex-col relative space-y-3">
+                <label htmlFor="tags" className="text-sm">
+                  Tagler
+                </label>
+                <input
+                  ref={searchFilterRef}
+                  type="text"
+                  name="tags"
+                  id="tags"
+                  onFocus={() => setShowResults(true)}
+                  value={filterQuery}
+                  onChange={(e) => setFilterQuery(e.target.value)}
+                  className="w-full h-12 p-3 pr-12 text-black border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm lg:w-80"
+                  placeholder="Fizyoterapi"
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  onClick={() => addNewFilter(filterQuery)}
+                  className="absolute right-3 top-8 text-fottoOrange hover:opacity-80"
+                >
+                  Ekle
+                </button>
+                <div className="space-y-2">
+                  {newFilters?.map((filter, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex justify-between px-2 py-1 bg-slate-100 shadow rounded-sm capitalize"
+                      >
+                        <h3>{filter}</h3>
+                        <button
+                          type="button"
+                          onClick={() => deleteNewFilter(filter)}
+                        >
+                          <MdOutlineClose />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {showResults && (
+                <div className=" absolute flex-col top-24 left-0 w-full shadow bg-white">
+                  {filterResults &&
+                    filterResults.map((filter, index) => {
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => addNewFilter(filter.name)}
+                          key={index}
+                          className="w-full px-2 space-x-3 bg-[#DCFAFF] flex items-center hover:opacity-80"
+                        >
+                          <BsPlusLg />
+                          <span className="w-full flex items-center py-1">
+                            {filter.name}
+                          </span>
+                        </button>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
             <div className="flex flex-col space-y-3">
               <label htmlFor="participants" className="text-sm">
                 Katılımcılar

@@ -25,7 +25,7 @@ async function Webinar({ params }) {
     <>
       <SingleWebinar
         slug={params.webinar_slug}
-        access_token={accessToken.value}
+        access_token={accessToken?.value}
       />
     </>
   );

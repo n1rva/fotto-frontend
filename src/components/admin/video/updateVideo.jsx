@@ -1,10 +1,10 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Datetime from "react-datetime";
 import moment from "moment";
 import "react-datetime/css/react-datetime.css";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsPlusCircle, BsPlusLg } from "react-icons/bs";
 
 import AuthContext from "@/context/AuthContext";
 import useDebounce from "@/utils/useDebounce";
@@ -14,6 +14,7 @@ import SingleVideoItem from "@/components/video/singleVideoItem";
 import { toast } from "react-toastify";
 import { toastProps } from "@/utils/toastProps";
 import { useRouter } from "next/navigation";
+import { MdOutlineClose } from "react-icons/md";
 
 function UpdateVideo({ id, access_token }) {
   const [title, setTitle] = useState(null);
@@ -28,6 +29,9 @@ function UpdateVideo({ id, access_token }) {
   const [thumbnail, setThumbnail] = useState(null);
   const [participants, setParticipants] = useState(null);
 
+  const [sourceCertificate, setSourceCertificate] = useState(null);
+  const [certAdded, setCertAdded] = useState(false);
+
   const [previewThumbnail, setPreviewThumbnail] = useState(null);
   const [previewInstructorImage, setPreviewInstructorImage] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
@@ -41,9 +45,16 @@ function UpdateVideo({ id, access_token }) {
 
   const [videoData, setVideoData] = useState(null);
 
+  const [newFilters, setNewFilters] = useState([]);
+  const [filterQuery, setFilterQuery] = useState("");
+  const [filterResults, setFilterResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+
+  const searchFilterRef = useRef(null);
+
   const [loading, setLoading] = useState(false);
 
-  const { getVideo, updateVideo, getVideoParticipants } =
+  const { getVideo, updateVideo, searchFilters, getVideoParticipants } =
     useContext(VideoContext);
   const { searchUsers, searchResults, setSearchResults } =
     useContext(AuthContext);
@@ -54,11 +65,15 @@ function UpdateVideo({ id, access_token }) {
 
   useEffect(() => {
     const getSingleVideo = async () => {
-      const response = await getVideo(id);
+      const { video } = await getVideo(id);
 
-      if (response.success) {
-        const { video } = response;
+      const videoTags = video.tags.map((e) => {
+        return e.name;
+      });
 
+      video.tags = videoTags;
+
+      if (video) {
         setVideoData(video);
 
         setTitle(video.title);
@@ -66,8 +81,9 @@ function UpdateVideo({ id, access_token }) {
         setPrice(video.price);
         setDate(moment(video.date));
         setInstructor(video.instructor);
+        setNewFilters(videoTags);
         setPreviewInstructorImage(video.instructor_image);
-
+        setCertAdded(video.certificates_added);
         setPreviewThumbnail(video.thumbnail);
         setParticipants(video.participants);
       }
@@ -159,6 +175,10 @@ function UpdateVideo({ id, access_token }) {
     reader.readAsDataURL(file);
   };
 
+  const sourceCertificateHandle = (e) => {
+    setSourceCertificate(e.target.files[0]);
+  };
+
   const handleUserSearch = async (query) => {
     const response = await searchUsers(query, access_token);
   };
@@ -210,6 +230,44 @@ function UpdateVideo({ id, access_token }) {
     );
   };
 
+  const searchFilterByQuery = async (query) => {
+    const filters = await searchFilters(query);
+    if (filters.length) {
+      setFilterResults(filters);
+    }
+  };
+
+  const addNewFilter = (filter) => {
+    if (
+      !newFilters.some(
+        (existingFilter) =>
+          existingFilter.toLowerCase() === filter.toLowerCase()
+      )
+    ) {
+      setNewFilters((prevFilters) => [...prevFilters, filter]);
+    }
+
+    setFilterQuery("");
+    searchFilterRef.current?.focus();
+  };
+
+  const deleteNewFilter = (filter) => {
+    const newArray = newFilters.filter((item) => item !== filter);
+    setNewFilters(newArray);
+  };
+
+  const debouncedFilterTerm = useDebounce(filterQuery, 200);
+
+  useEffect(() => {
+    if (debouncedFilterTerm.length > 2) {
+      searchFilterByQuery(debouncedFilterTerm);
+      // setSearchIsLoading(false);
+    } else {
+      // setSearchIsLoading(false);
+      setFilterResults([]);
+    }
+  }, [debouncedFilterTerm]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -225,9 +283,14 @@ function UpdateVideo({ id, access_token }) {
           instructor !== videoData.instructor ? instructor : undefined,
         instructorImage:
           instructorImage instanceof File ? instructorImage : undefined,
+        sourceCertificate:
+          sourceCertificate instanceof File ? sourceCertificate : undefined,
+        tags: newFilters !== videoData.tags ? newFilters : undefined,
         participants:
           participants !== videoData.participants ? participants : undefined,
         thumbnail: thumbnail instanceof File ? thumbnail : undefined,
+        certAdded:
+          certAdded !== videoData.certificates_added ? certAdded : undefined,
       },
       access_token
     );
@@ -245,6 +308,9 @@ function UpdateVideo({ id, access_token }) {
 
   return (
     <div className="container flex flex-col items-center py-8">
+      <h1 className="text-lg font-medium md:text-2xl">
+        Webinar Kaydını düzenle
+      </h1>
       <form
         method="post"
         onSubmit={handleSubmit}
@@ -324,6 +390,18 @@ function UpdateVideo({ id, access_token }) {
               />
             </div>
             <div className="flex flex-col space-y-3">
+              <label htmlFor="sourceCertificate" className="text-sm">
+                Kaynak Sertifika
+              </label>
+              <input
+                type="file"
+                name="sourceCertificate"
+                id="sourceCertificate"
+                onChange={sourceCertificateHandle}
+                className="relative m-0 block w-full min-w-0 flex-auto border border-secBlue rounded-md bg-clip-padding px-3 py-[0.32rem] text-sm text-fottoText transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-fottoOrange file:px-3 file:py-[0.32rem] file:text-black file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-fottoOrange/70 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none lg:w-80"
+              />
+            </div>
+            <div className="flex flex-col space-y-3">
               <label htmlFor="webinarPhoto" className="text-sm">
                 Thumbnail
               </label>
@@ -335,8 +413,88 @@ function UpdateVideo({ id, access_token }) {
                 className="relative m-0 block w-full min-w-0 flex-auto border border-secBlue rounded-md bg-clip-padding px-3 py-[0.32rem] text-sm text-fottoText transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-fottoOrange file:px-3 file:py-[0.32rem] file:text-black file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-fottoOrange/70 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none lg:w-80"
               />
             </div>
+            <div className="space-y-3">
+              <h3 className="text-sm">Sertifikalar</h3>
+              <div className="flex space-x-2 mx-1">
+                <input
+                  type="checkbox"
+                  name="certAdded"
+                  id="certAdded"
+                  checked={certAdded}
+                  onChange={(e) => setCertAdded(e.target.checked)}
+                  className="relative"
+                />
+                <label htmlFor="certAdded" className="text-sm">
+                  Sertifikalar eklendi
+                </label>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col space-y-5">
+            <div className="relative">
+              <div className="flex flex-col relative space-y-3">
+                <label htmlFor="tags" className="text-sm">
+                  Tagler
+                </label>
+                <input
+                  ref={searchFilterRef}
+                  type="text"
+                  name="tags"
+                  id="tags"
+                  onFocus={() => setShowResults(true)}
+                  value={filterQuery}
+                  onChange={(e) => setFilterQuery(e.target.value)}
+                  className="w-full h-12 p-3 pr-12 text-black border border-secBlue rounded-md peer focus:outline-none focus:shadow-sm lg:w-80"
+                  placeholder="Fizyoterapi"
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  onClick={() => addNewFilter(filterQuery)}
+                  className="absolute right-3 top-8 text-fottoOrange hover:opacity-80"
+                >
+                  Ekle
+                </button>
+                <div className="space-y-2">
+                  {newFilters?.map((filter, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex justify-between px-2 py-1 bg-slate-100 shadow rounded-sm capitalize"
+                      >
+                        <h3>{filter}</h3>
+                        <button
+                          type="button"
+                          onClick={() => deleteNewFilter(filter)}
+                        >
+                          <MdOutlineClose />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {showResults && (
+                <div className=" absolute flex-col top-24 left-0 w-full shadow bg-white">
+                  {filterResults &&
+                    filterResults.map((filter, index) => {
+                      return (
+                        <button
+                          type="button"
+                          onClick={(e) => addNewFilter(filter.name)}
+                          key={index}
+                          className="w-full px-2 space-x-3 bg-[#DCFAFF] flex items-center hover:opacity-80"
+                        >
+                          <BsPlusLg />
+                          <span className="w-full flex items-center py-1">
+                            {filter.name}
+                          </span>
+                        </button>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
             <div className="flex flex-col space-y-3">
               <label htmlFor="participants" className="text-sm">
                 Katılımcılar
@@ -419,7 +577,7 @@ function UpdateVideo({ id, access_token }) {
             }`}
           >
             <span className={`text-white font-medium text-sm`}>
-              {loading ? "Yükleniyor..." : "Webinar Kaydı Ekle"}
+              {loading ? "Yükleniyor..." : "Webinar Kaydını Güncelle"}
             </span>
           </button>
         </div>

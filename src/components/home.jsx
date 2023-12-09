@@ -14,14 +14,25 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 import { BsCalendar2Date } from "react-icons/bs";
 import Link from "next/link";
 import moment from "moment";
+import AuthContext from "@/context/AuthContext";
+import WebinarItem from "./webinar/webinarItem";
 
 function Home() {
-  const { getAllWebinars, allWebinars } = useContext(WebinarContext);
+  const { getAllWebinars } = useContext(WebinarContext);
+  const { user } = useContext(AuthContext);
+
+  const [allWebinars, setAllWebinars] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      await getAllWebinars();
+      const data = await getAllWebinars();
+
+      if (data.success) {
+        setAllWebinars(data.webinars.slice(-3));
+      }
+
       setIsLoading(false);
     };
     fetchData();
@@ -40,12 +51,14 @@ function Home() {
             Uzman fizyoterapist ve akademisyenlerin eşlik ettiği webinarlar ile
             sertifikanızı alın, kariyerinizde bir adım öne geçin.
           </p>
-          <Link
-            href={"/signup"}
-            className="mt-8 mx-auto text-white px-8 py-1 rounded-lg bg-secBlue text-sm hover:bg-opacity-80 lg:mx-0 lg:w-fit lg:text-base"
-          >
-            Katıl
-          </Link>
+          {!user && (
+            <Link
+              href={"/signup"}
+              className="mt-8 mx-auto text-white px-8 py-1 rounded-lg bg-secBlue text-sm hover:bg-opacity-80 lg:mx-0 lg:w-fit lg:text-base"
+            >
+              Katıl
+            </Link>
+          )}
           <div className="hidden -z-10 xl:block absolute -left-[900px] -top-[1250px] w-[1800px] h-[1800px] border-[75px] border-transparent rounded-full -rotate-90 border-b-iconBlue border-l-secBlue 2xl:-left-[800px] 2xl:-top-[1200px] 2xl:w-[1800px] 2xl:h-[1800px] 2xl:border-[90px]" />
         </div>
         {/* foto + border */}
@@ -65,64 +78,31 @@ function Home() {
         <div className="absolute rounded-full right-7 top-8 h-24 w-24 blur-3xl -z-10 bg-secBlue lg:bg-secBlue/50 lg:right-0 lg:-left-44 lg:-top-20 lg:h-[400px] lg:w-[400px] xl:right-0 xl:-left-44 xl:-top-20 xl:h-[600px] xl:w-[600px]" />
       </div>
       {/* yaklaşan webinarlar */}
-      <div className="flex flex-col items-center bg-fottoWhite px-12 py-3 max-h-[50rem] h-full">
+      <div className="flex flex-col items-center bg-fottoWhite px-12 py-3 h-full">
         <h1 className="font-bold text-2xl my-4 lg:w-full lg:max-w-6xl lg:px-6 xl:text-3xl">
           Yaklaşan Webinarlar
         </h1>
         {/* webinar listesi */}
-        <div className="w-full max-w-5xl">
+        <div className="w-full flex flex-col items-center space-y-3 lg:space-y-0 lg:items-start lg:justify-around lg:flex-row lg:max-w-5xl">
           {isLoading ? (
             <div className="mx-auto flex justify-center items-center h-96">
               <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-iconBlue"></div>
             </div>
-          ) : allWebinars.length ? (
-            <Swiper
-              slidesPerView={window.innerWidth < 768 ? 1 : 3}
-              grabCursor={true}
-              spaceBetween={30}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[Pagination]}
-              className="mySwiper"
-            >
-              {allWebinars.map((webinar) => {
-                const { id, date, image, instructor, title } = webinar;
-                return (
-                  <SwiperSlide key={id}>
-                    <Link href={`webinars/${id}`}>
-                      <div className="min-h-[20rem] w-48 mx-auto bg-darkerMain border border-secBlue select-none cursor-pointer hover:border-[#fd8f00] rounded-b-lg">
-                        <Image
-                          src={`${process.env.API_URL}${image}`}
-                          width={100}
-                          height={100}
-                          sizes="100vw"
-                          className="w-full max-h-40"
-                          alt={`webinar ${title}`}
-                        />
-                        <h4 className="font-bold text-sm text-center p-1 wrapword">
-                          {title}
-                        </h4>
-                        <div className="p-3 space-y-3">
-                          <div className="flex items-center ">
-                            <FaChalkboardTeacher className="text-fottoOrange" />
-                            <span className="ml-2 text-xs font-medium">
-                              {instructor}
-                            </span>
-                          </div>
-                          <div className="flex items-center ">
-                            <BsCalendar2Date className="text-fottoOrange" />
-                            <span className="ml-2 text-xs font-medium">
-                              {moment(date).format("DD/MM/YYYY HH:mm")}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
+          ) : allWebinars.length > 0 ? (
+            allWebinars.map((webinar) => {
+              const { id, date, image, instructor, title, slug } = webinar;
+
+              return (
+                <WebinarItem
+                  key={id}
+                  date={date}
+                  image={image}
+                  instructor={instructor}
+                  title={title}
+                  slug={slug}
+                />
+              );
+            })
           ) : (
             <div className="my-20">
               <span className="font-medium text-fottoText">
@@ -176,7 +156,7 @@ function Home() {
               </span>
             </h3>
             <p className="text-xs lg:text-sm lg:max-w-md">
-              uzman fizyoterapist ve akademisyenlerin katıldığı özel webinar
+              Uzman fizyoterapist ve akademisyenlerin katıldığı özel webinar
               kayıtlarına erişerek yeni bilgiler edinebilir, sektördeki
               gelişmeleri yakından takip edebilirsiniz.
             </p>
@@ -234,7 +214,7 @@ function Home() {
             </h3>
             <h4 className="font-medium text-lg lg:text-xl">Webinara katılın</h4>
             <p className="text-xs lg:text-sm">
-              İstediğiniz webinarı alın ve katılım sağlayın.
+              İstediğiniz webinara kaydolun ve katılım sağlayın.
             </p>
           </div>
           <div className="w-72 space-y-3 lg:w-fit lg:basis-1/3">
@@ -252,19 +232,21 @@ function Home() {
         </div>
       </div>
       {/* sign up section */}
-      <div className="py-12 flex justify-center">
-        <div className="flex flex-col justify-center items-center space-y-6 lg:container lg:justify-between lg:px-32 lg:max-w-[85rem] lg:items-start">
-          <h2 className="w-80 font-bold text-xl text-center lg:w-fit lg:text-start lg:text-3xl">
-            Hemen üye olun ve Fizyotto Live ile en iyiye doğru ilerleyin!
-          </h2>
-          <Link
-            href={"/signup"}
-            className="py-1 px-8 rounded-lg text-sm bg-gradient-to-r from-secBlue to-secBlue/40 text-white hover:opacity-80 lg:text-base lg:px-10"
-          >
-            Üye ol
-          </Link>
+      {!user && (
+        <div className="py-12 flex justify-center">
+          <div className="flex flex-col justify-center items-center space-y-6 lg:container lg:justify-between lg:px-32 lg:max-w-[85rem] lg:items-start">
+            <h2 className="w-80 font-bold text-xl text-center lg:w-fit lg:text-start lg:text-3xl">
+              Hemen üye olun ve Fizyotto Live ile en iyiye doğru ilerleyin!
+            </h2>
+            <Link
+              href={"/signup"}
+              className="py-1 px-8 rounded-lg text-sm bg-gradient-to-r from-secBlue to-secBlue/40 text-white hover:opacity-80 lg:text-base lg:px-10"
+            >
+              Üye ol
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

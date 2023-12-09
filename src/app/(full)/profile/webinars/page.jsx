@@ -11,7 +11,7 @@ function UserWebinars() {
   const accessToken = cookieStore.get("access");
 
   return (
-    <div className="p-8 lg:px-20 w-full lg:basis-3/4">
+    <div className="p-8 w-full lg:basis-3/4">
       <MyWebinars access_token={accessToken.value} />
     </div>
   );
